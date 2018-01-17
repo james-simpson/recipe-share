@@ -27,4 +27,4 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Service\CorsListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+            - { name: kernel.event_listener, event: kernel.response }
