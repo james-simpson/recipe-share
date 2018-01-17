@@ -22,6 +22,16 @@ class Recipe
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $author;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $image;
+
+    /**
      * @ORM\Column(type="text")
      */
     private $ingredients;
@@ -30,6 +40,31 @@ class Recipe
      * @ORM\Column(type="text")
      */
     private $method;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $time;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $difficulty;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $vegetarian;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $vegan;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $sweet;
 
     public function getId()
     {
@@ -44,6 +79,26 @@ class Recipe
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 
     public function getIngredients()
@@ -64,5 +119,55 @@ class Recipe
     public function setMethod($method)
     {
         $this->method = $method;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    public function setTime($time)
+    {
+        $this->time = $time;
+    }
+
+    public function getDifficulty()
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty($difficulty)
+    {
+        $this->difficulty = $difficulty;
+    }
+
+    public function getVegetarian()
+    {
+        return $this->vegetarian;
+    }
+
+    public function setVegetarian($vegetarian)
+    {
+        $this->vegetarian = $vegetarian;
+    }
+
+    public function getVegan()
+    {
+        return $this->vegan;
+    }
+
+    public function setVegan($vegan)
+    {
+        $this->vegan = $vegan;
+    }
+
+    public function getSweet()
+    {
+        return $this->sweet;
+    }
+
+    public function setSweet($sweet)
+    {
+        $this->sweet = $sweet;
     }
 }
