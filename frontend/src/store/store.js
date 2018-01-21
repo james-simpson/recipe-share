@@ -15,6 +15,9 @@ const mutations = {
 	},
 	updateRecipes (state, recipes) {
 		state.recipes = recipes;
+	},
+	addRecipe (state, recipe) {
+		state.recipes.push(recipe);
 	}
 }
 

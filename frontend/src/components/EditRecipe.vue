@@ -77,8 +77,7 @@
             <v-select
               label="Time estimate"
               :items="difficultyLevels"
-              v-model="recipe.difficulty"
-              item-value="text"
+              v-model="recipe.time"
               required
             ></v-select>
           </v-flex>
@@ -127,6 +126,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'EditRecipe',
   props: ['id'],
@@ -158,9 +159,14 @@ export default {
   computed: {
     recipe () {
       if (this.id > 0) {
-        return this.$store.getters.getRecipeById(this.id);
+        var recipeFromStore = this.$store.getters.getRecipeById(this.id);
+
+        // clone the recipe from the store so we can edit it without
+        // mutating the store's state
+        return Object.assign({}, recipeFromStore);
       } else {
-        return { title: '', vegetarian: false, vegan: false };
+        // new recipe
+        return { title: '', vegetarian: false, vegan: false, sweet: false };
       }    
     },
     tabs () {
@@ -180,7 +186,24 @@ export default {
   },
   methods: {
     saveChanges () {
-      // this.editMode = false;
+      // TODO: get time & difficult from user
+      this.recipe.time = 30;
+      this.recipe.difficulty = 1;
+
+      var self = this;
+      console.log(JSON.stringify(self.recipe))
+      axios.post('http://localhost:8000/api/recipes/add', self.recipe)
+        .then(function (response) {
+          console.log(response.data)
+          if (response.data.status === 'success') {
+            // self.recipe.id = response.data.id
+            // self.$store.commit('addRecipe', self.recipe)
+            self.$router.push({ name: 'My Recipes' })
+          }
+        })
+        .catch(function (error) {
+            console.log('Failed to add recipe: ' + error.message);
+        });
     },
     cancelChanges () {
       // this.editMode = false;
