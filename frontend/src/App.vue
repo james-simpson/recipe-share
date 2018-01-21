@@ -82,11 +82,11 @@
 </script>
 
 <style >
-.page-enter-active, .page-leave-active {
-  transition: opacity 0.1s;
+.page-enter-active{
+  transition: opacity 0.2s;
 }
 
-.page-enter, .page-leave-to {
+.page-enter {
   opacity: 0;
 }
 
