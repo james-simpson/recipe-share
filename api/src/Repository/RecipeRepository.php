@@ -13,6 +13,10 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    public function findAll() {
+        return $this->findBy([], ['id' => 'DESC']);
+    }
+
     /*
     public function findBySomething($value)
     {
