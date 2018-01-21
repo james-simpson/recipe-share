@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MyRecipes from '@/components/MyRecipes'
-import AddRecipe from '@/components/AddRecipe'
+import ViewRecipe from '@/components/ViewRecipe'
+import EditRecipe from '@/components/EditRecipe'
 
 Vue.use(Router)
 
@@ -20,12 +21,19 @@ export default new Router({
     {
       path: '/recipes/add',
       name: 'Add Recipe',
-      component: AddRecipe
+      component: EditRecipe,
     },
-    // {
-    //   path: '/settings',
-    //   name: 'Settings',
-    //   component: SettingsPage
-    // }
+    {
+      path: '/recipes/:id',
+      name: 'View Recipe',
+      component: ViewRecipe,
+      props: true
+    },
+    {
+      path: '/recipes/:id/edit',
+      name: 'Edit Recipe',
+      component: EditRecipe,
+      props: true
+    },
   ]
 })

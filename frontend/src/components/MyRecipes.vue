@@ -6,12 +6,25 @@
       grid-list-lg
     >
       <v-layout row wrap>
+        <!-- <v-progress-circular
+          indeterminate
+          v-bind:size="50"
+          color="primary"
+          v-if="loading"
+          class="loading-icon"
+        ></v-progress-circular> -->
         <v-flex xs12 md6 v-for="recipe in recipes">
           <recipe-card
             :title="recipe.title"
             :author="recipe.author"
             :image="recipe.image"
-            :attributes="recipe.attributes"
+            :time="recipe.time"
+            :difficulty="recipe.difficulty"
+            :difficultyLevels="difficultyLevels"
+            :vegetarian="recipe.vegetarian"
+            :vegan="recipe.vegan"
+            :sweet="recipe.sweet"
+            :to="viewRecipeRoute(recipe.id)"
             class="white--text"
           ></recipe-card>
         </v-flex>
@@ -32,72 +45,55 @@
         </v-btn>
       </v-fab-transition>
     </v-container>
-    <div class="text-xs-center pt-3 pb-5">
+    <!-- <div class="text-xs-center pt-3 pb-5">
       <v-pagination :length="6" v-model="page" circle></v-pagination>
-    </div>
+    </div> -->
   </v-content>
 </template>
 
 <script>
 import RecipeCard from './RecipeCard';
+import axios from 'axios';
 
 export default {
   name: 'MyRecipes',
   components: { RecipeCard },
   data () {
     return {
-      recipes: [
-        {
-          id: 1,
-          title: 'Spaghetti carbonara',
-          author: 'Jamie Oliver',
-          image: '/static/carbonara.jpeg',
-          attributes: {
-            time: '15m',
-            difficulty: 'Easy',
-            vegetarian: false
-          },
-        },
-        {
-          id: 2,
-          title: 'Butternut squash lasagne',
-          author: 'Nigella Lawson',
-          image: '/static/butternut-squash-lasagne.jpg',
-          attributes: {
-            time: '2h 30m',
-            difficulty: 'Medium',
-            vegetarian: true
-          },
-        },
-        {
-          id: 3,
-          title: 'Chocolate brownies',
-          author: 'Mary Berry',
-          image: '/static/brownies.jpg',
-          attributes: {
-            time: '1h 30m',
-            difficulty: 'Easy',
-            vegetarian: true,
-            sweet: true
-          },
-        },
-        {
-          id: 4,
-          title: 'Classic Melton Mowbray pork pie',
-          author: 'Hairy bikers',
-          image: '/static/melton-mowbray.jpg',
-          attributes: {
-            time: '3h',
-            difficulty: 'Advanced',
-            vegetarian: false
-          },
-        },
-      ],
+      difficultyLevels: ['Easy', 'Easy/medium', 'Medium', 'Medium/Advanced', 'Advanced'],
       hover: true,
       page: 1,
       addRecipeRoute: '/recipes/add',
-      showAddButton: true
+      showAddButton: true,
+      loading: false
     }
+  },
+  computed: {
+    recipes () {
+      return this.$store.state.recipes;
+    }
+  },
+  methods: {
+    updateRecipes(recipes) {
+      this.recipes = recipes;
+    },
+    viewRecipeRoute (id) {
+      return '/recipes/' + id;
+    }
+  },
+  created () {
+    this.$store.commit('clearRecipes')
+    this.loading = true;
+
+    var self = this;
+    axios.get('http://localhost:8000/api/recipes')
+      .then(function (response) {
+        self.$store.commit('updateRecipes', response.data)
+        self.loading = false;
+      })
+      .catch(function (error) {
+          console.log(error.message);
+      });
   }
 }
 </script>

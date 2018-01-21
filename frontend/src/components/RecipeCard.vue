@@ -1,5 +1,5 @@
 <template>
-  <v-card :color="color" class="white--text" :to="editRecipeRoute" hover="hover">
+  <v-card :color="color" class="white--text" :to="to" hover="hover">
     <v-container fluid grid-list-lg>
       <v-layout row>
         <v-flex xs7>
@@ -12,7 +12,7 @@
               small
               disabled
             >
-              {{ attributes.time }}
+              {{ timeEstimate }}
             </v-chip>
             <v-chip
               color="grey darken-3"
@@ -20,10 +20,10 @@
               small
               disabled
             >
-              {{ attributes.difficulty }}
+              {{ difficultyLevel }}
             </v-chip>
             <v-chip
-              v-if="attributes.vegetarian"
+              v-if="vegetarian"
               color="grey darken-3"
               text-color="white"
               small
@@ -35,7 +35,7 @@
         </v-flex>
         <v-flex xs5>
           <v-card-media
-            :src="image"
+            :src="imagePath"
             height="120px"
             contain
             center
@@ -49,24 +49,45 @@
 <script>
   export default {
     name: 'RecipeCard',
-    props: ['title', 'author', 'image', 'attributes'],
-    data: function() {
-      return {
-        editRecipeRoute: '/recipes/add'
-      }
-    },
+    props: [
+      'title',
+      'author',
+      'image',
+      'time',
+      'difficulty',
+      'difficultyLevels',
+      'vegetarian',
+      'vegan',
+      'sweet',
+      'to'
+    ],
     computed: {
       color: function() {
-        if (this.attributes.sweet === true) {
+        if (this.sweet === true) {
           return 'pink lighten-2'
         }
 
-        if (this.attributes.vegetarian === true) {
+        if (this.vegetarian === true) {
           return 'green';
         }
 
         return 'cyan darken-1';
+      },
+      imagePath: function() {
+        return '/static/' + this.image;
+      },
+      timeEstimate: function() {
+        return this.time + "m";
+      },
+      difficultyLevel: function() {
+        return this.difficultyLevels[this.difficulty];
       }
     }
   }
 </script>
+
+<style >
+.loading-icon {
+  text-align: center;
+}      
+</style>
