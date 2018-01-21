@@ -32,7 +32,7 @@
       <v-fab-transition>
         <v-btn
           :to="addRecipeRoute"
-          v-show="showAddButton"
+          v-show="showFabs"
           fixed
           dark
           fab
@@ -65,7 +65,8 @@ export default {
       page: 1,
       addRecipeRoute: '/recipes/add',
       showAddButton: true,
-      loading: false
+      loading: false,
+      showFabs: false
     }
   },
   computed: {
@@ -94,6 +95,9 @@ export default {
       .catch(function (error) {
           console.log(error.message);
       });
+  },
+  mounted () {
+    this.showFabs = true;
   }
 }
 </script>

@@ -77,6 +77,7 @@
       </v-flex>
       <v-fab-transition>
         <v-btn
+          v-show="showFabs"
           :to="editRecipeRoute"
           fixed
           dark
@@ -91,6 +92,7 @@
       </v-fab-transition>
       <v-fab-transition>
         <v-btn
+          v-show="showFabs"
           :to="myRecipesRoute"
           fixed
           dark
@@ -115,6 +117,7 @@ export default {
     return {
       myRecipesRoute: '/recipes/myrecipes',
       active: null,
+      showFabs: false
     }
   },
   computed: {
@@ -123,6 +126,9 @@ export default {
     },
     editRecipeRoute () {
       return '/recipes/' + this.recipe.id + '/edit'
+    },
+    difficulty () {
+      return this.recipe
     },
     tabs () {
       return [
@@ -137,7 +143,10 @@ export default {
           text: this.recipe.method
         }
       ]
-    },
+    }
+  },
+  mounted () {
+    this.showFabs = true;
   }
 }
 </script>

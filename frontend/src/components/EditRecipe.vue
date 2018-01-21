@@ -95,6 +95,7 @@
         <v-fab-transition>
           <v-btn
             @click="saveChanges"
+            v-show="showFabs"
             fixed
             dark
             fab
@@ -109,6 +110,7 @@
         <v-fab-transition>
           <v-btn
             @click="cancelChanges"
+            v-show="showFabs"
             fixed
             dark
             fab
@@ -150,6 +152,7 @@ export default {
       // },
       active: null,
       autoGrow: true,
+      showFabs: false
     }
   },
   computed: {
@@ -182,6 +185,9 @@ export default {
     cancelChanges () {
       // this.editMode = false;
     },
+  },
+  mounted () {
+    this.showFabs = true;
   }
 }
 </script>
