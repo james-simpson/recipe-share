@@ -122,7 +122,7 @@ export default {
   },
   computed: {
     recipe () {
-      return this.$store.state.recipes.filter(x => x.id == this.id)[0];
+      return this.$store.getters.getRecipeById(this.id);
     },
     editRecipeRoute () {
       return '/recipes/' + this.recipe.id + '/edit'

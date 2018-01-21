@@ -158,7 +158,7 @@ export default {
   computed: {
     recipe () {
       if (this.id > 0) {
-        return this.$store.state.recipes.filter(x => x.id == this.id)[0];
+        return this.$store.getters.getRecipeById(this.id);
       } else {
         return { title: '', vegetarian: false, vegan: false };
       }    

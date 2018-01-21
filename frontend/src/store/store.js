@@ -18,9 +18,19 @@ const mutations = {
 	}
 }
 
+const getters = {
+  getRecipeById: (state) => (id) => {
+    return state.recipes.find(x => x.id == id)
+  }
+}
+
 // create the Vuex instance by combining the state and mutations objects
 // then export the Vuex store for use by our components
 export default new Vuex.Store({
   state,
-  mutations
+  mutations,
+  getters,
+  // use strict mode unless in the production environment,
+  // where we want to avoid the performance cost
+  strict: process.env.NODE_ENV !== 'production'
 })
