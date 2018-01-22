@@ -158,7 +158,7 @@ export default {
   },
   computed: {
     recipe () {
-      if (this.id > 0) {
+      if (!this.isNewRecipe) {
         var recipeFromStore = this.$store.getters.getRecipeById(this.id);
 
         // clone the recipe from the store so we can edit it without
@@ -182,6 +182,9 @@ export default {
           text: this.recipe.method
         }
       ]
+    },
+    isNewRecipe () {
+      return typeof this.id === 'undefined';
     }
   },
   methods: {
@@ -206,7 +209,11 @@ export default {
         });
     },
     cancelChanges () {
-      // this.editMode = false;
+      if (this.isNewRecipe) {
+        this.$router.push({ name: 'My Recipes' });
+      } else {
+        this.$router.push({ name: 'View Recipe', params: { id: this.id } });
+      }
     },
   },
   mounted () {
