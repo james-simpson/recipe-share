@@ -54,4 +54,23 @@ class RecipeController extends Controller
 
     	return new JsonResponse(array('status' => 'success', 'id' => $recipe->getId()));
     }
+
+    /**
+     * @Route("/api/recipes/{id}/delete")
+     * @Method({"DELETE", "OPTIONS"})
+     */
+    public function deleteRecipeAction($id) {
+    	$db = $this->getDoctrine()->getManager();
+
+    	try {
+    		$recipe = $db->getRepository(Recipe::class)->find($id);
+	    	$db->remove($recipe);
+			$db->flush();
+    	} catch (Exception $e) {
+    		// TODO add logging
+    		return new JsonResponse(array('status' => 'failed'));
+    	}
+
+    	return new JsonResponse(array('status' => 'success'));
+    }
 }

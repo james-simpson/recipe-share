@@ -2,8 +2,9 @@
   <v-content>
     <v-container fluid>
       <v-flex xs12 md12>
-        <v-layout row wrap class="pb-2">
-          <h2 class="mb-2 mr-4">{{ recipe.title }}</h2>
+        <h2 class="mb-2 mr-4">{{ recipe.title }}</h2>
+        <v-layout row wrap class="mb-2">
+          <p class="recipe-author-text mr-4">{{ recipe.author }}</p>
           <div>
             <v-chip
               color="grey darken-2"
@@ -31,7 +32,7 @@
               Vegetarian
             </v-chip>
           </div>
-      </v-layout>
+        </v-layout>
         <v-tabs v-model="active" lazy class="hidden-md-and-up">
           <v-tabs-bar class="cyan" dark>
             <v-tabs-item
@@ -76,19 +77,50 @@
         </v-container>
       </v-flex>
       <v-fab-transition>
-        <v-btn
+        <v-speed-dial
           v-show="showFabs"
-          :to="editRecipeRoute"
+          v-model="fab"
           fixed
           dark
           fab
           bottom
           right
           color="pink"
-          class="mb-4 left-fab"
+          :hover="true"
         >
-          <v-icon>create</v-icon>
-        </v-btn>
+          <v-btn
+            slot="activator"
+            color="pink"
+            dark
+            fab
+            hover
+            v-model="fab"
+            class="mb-4 left-fab"
+          >
+            <v-icon>more_vert</v-icon>
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-btn
+            :to="editRecipeRoute"
+            fab
+            dark
+            small
+            color="indigo"
+            class="left-fab"
+          >
+            <v-icon>edit</v-icon>
+          </v-btn>
+          <v-btn
+            @click="handleDelete"
+            fab
+            dark
+            small
+            color="red"
+            class="left-fab"
+          >
+            <v-icon>delete</v-icon>
+          </v-btn>
+        </v-speed-dial>
       </v-fab-transition>
       <v-fab-transition>
         <v-btn
@@ -110,6 +142,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'ViewRecipe',
   props: ['id'],
@@ -117,7 +151,8 @@ export default {
     return {
       myRecipesRoute: '/recipes/myrecipes',
       active: null,
-      showFabs: false
+      showFabs: false,
+      fab: false
     }
   },
   computed: {
@@ -143,6 +178,21 @@ export default {
           text: this.recipe.method
         }
       ]
+    }
+  },
+  methods: {
+    handleDelete () {
+      var self = this;
+      axios.delete('http://localhost:8000/api/recipes/' + this.recipe.id + '/delete')
+        .then(function (response) {
+          console.log(response.data)
+          if (response.data.status === 'success') {
+            self.$router.push({ name: 'My Recipes' })
+          }
+        })
+        .catch(function (error) {
+            console.log('Failed to add recipe: ' + error.message);
+        });
     }
   },
   mounted () {
@@ -172,9 +222,13 @@ export default {
   color: rgba(0,0,0,0.87);
   text-align: left;
   font-size: 15px;
+  /* TODO: add line-height property for ingredients */
 }
 .recipe-card-underline {
   padding: 0;
   height: 2px;
+}
+.recipe-author-text {
+  font-size: 16px;
 }
 </style>

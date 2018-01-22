@@ -5,6 +5,11 @@
       style="min-height: 0;"
       grid-list-lg
     >
+      <v-progress-linear
+        v-bind:indeterminate="true"
+        height="4"
+        v-if="loading"
+      ></v-progress-linear>
       <v-layout row wrap>
         <!-- <v-progress-circular
           indeterminate
