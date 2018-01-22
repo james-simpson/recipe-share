@@ -57,7 +57,7 @@
             </v-tabs-content>
           </v-tabs-items>
         </v-tabs>
-        <v-container grid-list-md text-xs-center>
+        <v-container grid-list-md text-xs-center id="recipeDetailsContainer">
           <v-layout row wrap hidden-sm-and-down>
             <v-flex xs3>
               <v-card dark color="cyan">
@@ -120,6 +120,16 @@
           >
             <v-icon>delete</v-icon>
           </v-btn>
+          <v-btn
+            @click="requestFullscreen"
+            fab
+            dark
+            small
+            color="green"
+            class="left-fab"
+          >
+            <v-icon>fullscreen</v-icon>
+          </v-btn>
         </v-speed-dial>
       </v-fab-transition>
       <v-fab-transition>
@@ -139,6 +149,7 @@
       </v-fab-transition>
     </v-container>
   </v-content>
+  </fullscreen>
 </template>
 
 <script>
@@ -152,7 +163,8 @@ export default {
       myRecipesRoute: '/recipes/myrecipes',
       active: null,
       showFabs: false,
-      fab: false
+      fab: false,
+      fullscreen: true
     }
   },
   computed: {
@@ -193,6 +205,18 @@ export default {
         .catch(function (error) {
             console.log('Failed to add recipe: ' + error.message);
         });
+    },
+
+    // enter fullscreen mode, focusing on the ingredients and method
+    requestFullscreen () {
+      this.fullscreen = !this.fullscreen
+      this.getreqfullscreen().call(document.getElementById('recipeDetailsContainer')) 
+    },
+
+    // get the supported function to request fullscreen
+    getreqfullscreen(){
+      var root = document.documentElement
+      return root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen
     }
   },
   mounted () {
