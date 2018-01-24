@@ -194,12 +194,14 @@ export default {
   },
   methods: {
     handleDelete () {
+      this.$emit('set-loading', 'true');
       var self = this;
       axios.delete('http://localhost:8000/api/recipes/' + this.recipe.id + '/delete')
         .then(function (response) {
           console.log(response.data)
           if (response.data.status === 'success') {
             self.$router.push({ name: 'My Recipes' })
+            self.$emit('show-toast', 'Recipe deleted');
           }
         })
         .catch(function (error) {

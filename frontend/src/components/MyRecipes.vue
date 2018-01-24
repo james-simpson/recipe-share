@@ -5,19 +5,7 @@
       style="min-height: 0;"
       grid-list-lg
     >
-      <v-progress-linear
-        v-bind:indeterminate="true"
-        height="4"
-        v-if="loading"
-      ></v-progress-linear>
       <v-layout row wrap>
-        <!-- <v-progress-circular
-          indeterminate
-          v-bind:size="50"
-          color="primary"
-          v-if="loading"
-          class="loading-icon"
-        ></v-progress-circular> -->
         <v-flex xs12 md6 v-for="recipe in recipes">
           <recipe-card
             :title="recipe.title"
@@ -89,13 +77,13 @@ export default {
   },
   created () {
     this.$store.commit('clearRecipes')
-    this.loading = true;
+    this.$emit('set-loading', true)
 
     var self = this;
     axios.get('http://localhost:8000/api/recipes')
       .then(function (response) {
         self.$store.commit('updateRecipes', response.data)
-        self.loading = false;
+        self.$emit('set-loading', false)
       })
       .catch(function (error) {
           console.log(error.message);

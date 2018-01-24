@@ -23,7 +23,8 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed app clipped-left class="blue darken-3" dark>
+    <!-- TODO: change toolbar colour. maybe #1055a4? -->
+    <v-toolbar fixed app clipped-left class="indigo" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.smAndUp ? 'width: 260px; min-width: 250px' : 'min-width: 72px'" class="ml-0 pl-3"></v-toolbar-title>
       <v-text-field
@@ -35,9 +36,31 @@
       ></v-text-field>
       <v-spacer></v-spacer>
     </v-toolbar>
+    <div class="progress-bar" v-if="loading">
+      <v-progress-linear
+          v-bind:indeterminate="true"
+          height="4"
+          style="margin-top: 80px;"
+          :class="{ loadingWithNav: drawer }"
+      ></v-progress-linear>
+    </div>
     <transition name="page">
-      <router-view></router-view>
+      <router-view
+        @show-toast=displayToast
+        @set-loading=setLoading
+        v-show="!loading"
+      ></router-view>
     </transition>
+    <v-snackbar
+      :timeout="2000"
+      top
+      right
+      v-model="toastVisible"
+      class="toast"
+    >
+      {{ toastMessage }}
+      <v-icon color="pink">done</v-icon>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -76,6 +99,19 @@
         ],
         miniVariant: false,
         title: 'My Recipes',
+        toastMessage: '',
+        toastVisible: false,
+        loading: true
+      }
+    },
+
+    methods: {
+      displayToast (message) {
+        this.toastMessage = message
+        this.toastVisible = true
+      },
+      setLoading (loading) {
+        this.loading = loading
       }
     }
   }
@@ -94,5 +130,18 @@
   display: flex;
   align-items: center;
 }
-      
+
+.toast {
+  margin-top: 65px;
+}
+
+.progress-bar {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.loadingWithNav {
+  margin-left: 310px;
+  width: calc(100% - 320px);
+}   
 </style>

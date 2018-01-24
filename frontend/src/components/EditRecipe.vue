@@ -10,6 +10,24 @@
             :counter="100"
             required
           ></v-text-field>
+          <v-text-field
+            label="Author"
+            v-model="recipe.author"
+            required
+          ></v-text-field>
+          <v-select
+            label="Time estimate"
+            :items="difficultyLevels"
+            v-model="recipe.time"
+            required
+          ></v-select>
+          <v-select
+            label="Difficulty level"
+            :items="difficultyLevels"
+            v-model="recipe.difficulty"
+            item-value="text"
+            required
+          ></v-select>
         </v-form>
         <v-tabs v-model="active" lazy class="hidden-md-and-up">
           <v-tabs-bar class="cyan" dark>
@@ -72,25 +90,6 @@
           </v-layout>
         </v-container>
       </v-flex>
-      <v-form v-model="valid">
-          <v-flex xs12 sm>
-            <v-select
-              label="Time estimate"
-              :items="difficultyLevels"
-              v-model="recipe.time"
-              required
-            ></v-select>
-          </v-flex>
-          <v-flex>
-            <v-select
-              label="Difficulty level"
-              :items="difficultyLevels"
-              v-model="recipe.difficulty"
-              item-value="text"
-              required
-            ></v-select>
-          </v-flex>
-        </v-form>
         <v-fab-transition>
           <v-btn
             @click="saveChanges"
@@ -189,23 +188,24 @@ export default {
   },
   methods: {
     saveChanges () {
+      this.$emit('set-loading', 'true');
+
       // TODO: get time & difficult from user
       this.recipe.time = 30;
       this.recipe.difficulty = 1;
 
       var self = this;
-      console.log(JSON.stringify(self.recipe))
       axios.post('http://localhost:8000/api/recipes/add', self.recipe)
         .then(function (response) {
-          console.log(response.data)
+
           if (response.data.status === 'success') {
-            // self.recipe.id = response.data.id
-            // self.$store.commit('addRecipe', self.recipe)
-            self.$router.push({ name: 'My Recipes' })
+            self.$router.push({ name: 'My Recipes' });
+            self.$emit('show-toast', 'Recipe saved');
           }
         })
         .catch(function (error) {
             console.log('Failed to add recipe: ' + error.message);
+            self.$emit('set-loading', false);
         });
     },
     cancelChanges () {
