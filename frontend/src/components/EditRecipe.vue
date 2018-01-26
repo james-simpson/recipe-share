@@ -37,6 +37,17 @@
           <v-radio-group v-model="recipe.difficulty" row class="difficulty-levels-radio-group">
             <v-radio v-for="(level, i) in difficultyLevels" :label="level" :value="i" ></v-radio>
           </v-radio-group>
+          <v-layout row wrap>
+            <v-flex xs2>
+              <v-checkbox label="Sweet" v-model="recipe.sweet" light></v-checkbox>
+            </v-flex>
+            <v-flex xs2>
+              <v-checkbox label="Vegetarian" v-model="recipe.vegetarian" light></v-checkbox>
+            </v-flex>
+            <v-flex xs2 v-show="recipe.vegetarian">
+              <v-checkbox label="Vegan" v-model="recipe.vegan" light></v-checkbox>
+            </v-flex>
+          </v-layout>
         </v-form>
         <v-tabs v-model="active" lazy class="hidden-md-and-up">
           <v-tabs-bar class="cyan" dark>
@@ -141,6 +152,7 @@ export default {
   props: ['id'],
   data () {
     return {
+      recipe: { title: '', vegetarian: false, vegan: false, sweet: false },
       valid: false,
       nameRules: [
         (v) => !!v || 'Title is required',
@@ -155,22 +167,10 @@ export default {
       myRecipesRoute: '/recipes/myrecipes',
       active: null,
       autoGrow: true,
-      showFabs: false
+      showFabs: false,
     }
   },
   computed: {
-    recipe () {
-      if (!this.isNewRecipe) {
-        var recipeFromStore = this.$store.getters.getRecipeById(this.id);
-
-        // clone the recipe from the store so we can edit it without
-        // mutating the store's state
-        return Object.assign({}, recipeFromStore);
-      } else {
-        // new recipe
-        return { title: '', vegetarian: false, vegan: false, sweet: false };
-      }    
-    },
     tabs () {
       return [
         { 
@@ -218,6 +218,17 @@ export default {
     },
   },
   created () {
+    if (!this.isNewRecipe) {
+      var recipeFromStore = this.$store.getters.getRecipeById(this.id);
+
+      // clone the recipe from the store so we can edit it without
+      // mutating the store's state
+      this.recipe =  Object.assign({}, recipeFromStore);
+    } else {
+      // new recipe
+      return { title: '', vegetarian: false, vegan: false, sweet: false };
+    } 
+
     this.hours = Math.floor(this.recipe.time / 60);
     this.minutes = this.recipe.time % 60;
   },

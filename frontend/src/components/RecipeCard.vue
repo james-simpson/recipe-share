@@ -23,13 +23,22 @@
               {{ difficultyLevel }}
             </v-chip>
             <v-chip
-              v-if="vegetarian"
+              v-if="vegetarian && !vegan"
               color="grey darken-3"
               text-color="white"
               small
               disabled
             >
               Vegetarian
+            </v-chip>
+            <v-chip
+              v-if="vegan"
+              color="grey darken-3"
+              text-color="white"
+              small
+              disabled
+            >
+              Vegan
             </v-chip>
           </div>
         </v-flex>
