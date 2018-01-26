@@ -12,7 +12,7 @@
               small
               disabled
             >
-              {{ recipe.time }}
+              {{ timeLabel }}
             </v-chip>
             <v-chip
               color="grey darken-2"
@@ -154,6 +154,7 @@
 
 <script>
 import axios from 'axios'
+import { getRecipeDurationLabel } from '../utils.js';
 
 export default {
   name: 'ViewRecipe',
@@ -176,6 +177,9 @@ export default {
     },
     difficulty () {
       return this.recipe
+    },
+    timeLabel () {
+      return getRecipeDurationLabel(this.recipe.time);
     },
     tabs () {
       return [

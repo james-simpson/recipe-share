@@ -12,7 +12,7 @@
               small
               disabled
             >
-              {{ timeEstimate }}
+              {{ timeLabel }}
             </v-chip>
             <v-chip
               color="grey darken-3"
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+  import { getRecipeDurationLabel } from '../utils.js';
+
   export default {
     name: 'RecipeCard',
     props: [
@@ -76,11 +78,11 @@
       imagePath: function() {
         return '/static/' + this.image;
       },
-      timeEstimate: function() {
-        return this.time + "m";
-      },
       difficultyLevel: function() {
         return this.difficultyLevels[this.difficulty];
+      },
+      timeLabel () {
+        return getRecipeDurationLabel(this.time);
       }
     }
   }

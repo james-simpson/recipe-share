@@ -15,19 +15,28 @@
             v-model="recipe.author"
             required
           ></v-text-field>
-          <v-select
-            label="Time estimate"
-            :items="difficultyLevels"
-            v-model="recipe.time"
-            required
-          ></v-select>
-          <v-select
-            label="Difficulty level"
-            :items="difficultyLevels"
-            v-model="recipe.difficulty"
-            item-value="text"
-            required
-          ></v-select>
+          <v-layout row wrap>
+            <v-flex xs2 mr-4>
+              <v-select
+                label="hours"
+                :items="hoursOptions"
+                v-model="hours"
+                prepend-icon="hourglass_empty"
+                required
+              ></v-select>
+            </v-flex>
+            <v-flex xs2 mr-4>
+              <v-select
+              label="minutes"
+              :items="minutesOptions"
+              v-model="minutes"
+              required
+            ></v-select>
+            </v-flex>
+          </v-layout>
+          <v-radio-group v-model="recipe.difficulty" row class="difficulty-levels-radio-group">
+            <v-radio v-for="(level, i) in difficultyLevels" :label="level" :value="i" ></v-radio>
+          </v-radio-group>
         </v-form>
         <v-tabs v-model="active" lazy class="hidden-md-and-up">
           <v-tabs-bar class="cyan" dark>
@@ -138,18 +147,12 @@ export default {
         (v) => v.length <= 100 || 'Name must be less than 100 characters'
       ],
       difficulty: '',
-      difficultyLevels: ['Easy', 'Easy/Medium', 'Medium', 'Medium/Advanced', 'Advanced'],
+      difficultyLevels: ['Easy', 'Easy/Med', 'Medium', 'Med/Adv', 'Advanced'],
+      hoursOptions: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 16, 20, 24, 48],
+      minutesOptions: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+      minutes: null,
+      hours: null,
       myRecipesRoute: '/recipes/myrecipes',
-      // recipe: {
-      //   title: 'Sticky Kickin Chicken',
-      //   ingredients: "Salad\n200g thin rice noodles sesame oil\n800g watermelon\n2 little gem lettuces\n1 handful of radishes\nHalf a bunch of fresh mint\nHalf a bunch of fresh coriander\n\nChicken\n8 skinless, boneless chicken thighs\n1 tbsp Chinese five-spice\nolive oil\n2 tbsp sweet chilli sauce\n2 tbsp sesame seeds\n\nDressing\n2 tbsp low-salt soy sauce\n1 tbsp fish sauce\nHalf a fresh red chilli\nHalf a thumb-sized piece of ginger\n2 spring onions\n2 limes\n1 small clove of garlic",
-      //   method: "On a large sheet of greaseproof paper, toss the chicken with salt, pepper and the five-spice. Fold over the paper, then bash and flatten the chicken to 1.5cm thick with a rolling pin. Put into the large frying pan with 1 tablespoon of olive oil, turning after 3 or 4 minutes, until nicely charred and cooked through.\n\nDrain the noodles and toss with 1 tablespoon of sesame oil on a big serving platter. Put half of the noodles into the medium frying pan, tossing regularly until nice and crunchy.\n\nRemove the watermelon skin, cut the flesh into erratic chunks and add to the platter. Trim the lettuces and cut into small wedges, halve the radishes, finely slice the top leafy half of the mint and most of the top leafy half of the coriander, and scatter over the platter.\n\nPut the coriander stalks into the liquidizer with the soy and fish sauces, chilli, peeled ginger, trimmed spring onions, a splash of water, 1 tablespoon of sesame oil and the lime juice. Squash in the unpeeled garlic through a garlic crusher, then whiz until smooth.\n\nDrain away any excess fat from the chicken pan, put back on the heat, drizzle with the sweet chilli sauce and toss with the sesame seeds.",
-      //   attributes: {
-      //     time: '2h 30m',
-      //     difficulty: 'Medium',
-      //     vegetarian: true
-      //   },
-      // },
       active: null,
       autoGrow: true,
       showFabs: false
@@ -184,15 +187,13 @@ export default {
     },
     isNewRecipe () {
       return typeof this.id === 'undefined';
-    }
+    },
   },
   methods: {
     saveChanges () {
       this.$emit('set-loading', 'true');
 
-      // TODO: get time & difficult from user
-      this.recipe.time = 30;
-      this.recipe.difficulty = 1;
+      this.recipe.time = this.hours * 60 + this.minutes;
 
       var self = this;
       axios.post('http://localhost:8000/api/recipes/add', self.recipe)
@@ -215,6 +216,10 @@ export default {
         this.$router.push({ name: 'View Recipe', params: { id: this.id } });
       }
     },
+  },
+  created () {
+    this.hours = Math.floor(this.recipe.time / 60);
+    this.minutes = this.recipe.time % 60;
   },
   mounted () {
     this.showFabs = true;
@@ -257,5 +262,8 @@ export default {
 .recipe-card-underline {
   padding: 0;
   height: 2px;
+}
+.difficulty-levels-radio-group {
+  width: 75%;
 }
 </style>
