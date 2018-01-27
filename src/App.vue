@@ -83,7 +83,7 @@
           },
           {
             title: 'My recipes',
-            route: '/recipes/myrecipes',
+            route: '/recipes/my-recipes',
             icon: 'favorite',
           },
           {

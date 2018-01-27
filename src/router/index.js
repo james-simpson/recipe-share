@@ -9,7 +9,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/recipes/myrecipes',
+      path: '/recipes/my-recipes',
       name: 'My Recipes',
       component: MyRecipes
     },

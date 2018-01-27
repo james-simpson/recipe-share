@@ -170,7 +170,7 @@ export default {
   props: ['id'],
   data () {
     return {
-      myRecipesRoute: '/recipes/myrecipes',
+      myRecipesRoute: '/recipes/my-recipes',
       active: null,
       showFabs: false,
       fab: false,

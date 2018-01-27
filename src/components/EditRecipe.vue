@@ -38,7 +38,7 @@
             <v-radio v-for="(level, i) in difficultyLevels" :label="level" :value="i" ></v-radio>
           </v-radio-group>
           <v-layout row wrap>
-            <v-flex xs4 md2>
+            <v-flex xs12 md2>
               <v-checkbox label="Sweet" v-model="recipe.sweet" light></v-checkbox>
             </v-flex>
             <v-flex xs4 md2>
@@ -189,7 +189,6 @@ export default {
       return typeof this.id === 'undefined';
     },
     displayDifficultiesAsRow() {
-      console.log(this.$vuetify.breakpoint.name)
       switch (this.$vuetify.breakpoint.name) {
          case 'xs': return false
          case 'sm': return false
