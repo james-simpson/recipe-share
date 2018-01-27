@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import { getRecipeDurationLabel } from '../utils.js';
+  import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js';
 
   export default {
     name: 'RecipeCard',
@@ -73,7 +73,7 @@
       'to'
     ],
     computed: {
-      color: function() {
+      color () {
         if (this.sweet === true) {
           return 'pink lighten-2'
         }
@@ -84,11 +84,11 @@
 
         return 'cyan darken-1';
       },
-      imagePath: function() {
+      imagePath () {
         return '/static/' + this.image;
       },
-      difficultyLevel: function() {
-        return this.difficultyLevels[this.difficulty];
+      difficultyLevel () {
+        return getDifficultyLabel(this.difficulty);
       },
       timeLabel () {
         return getRecipeDurationLabel(this.time);

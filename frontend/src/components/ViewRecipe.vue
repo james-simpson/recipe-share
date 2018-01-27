@@ -20,7 +20,7 @@
               small
               disabled
             >
-              {{ recipe.difficulty }}
+              {{ difficultyLabel }}
             </v-chip>
             <v-chip
               v-if="recipe.vegetarian"
@@ -154,7 +154,7 @@
 
 <script>
 import axios from 'axios'
-import { getRecipeDurationLabel } from '../utils.js';
+import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js';
 
 export default {
   name: 'ViewRecipe',
@@ -175,8 +175,8 @@ export default {
     editRecipeRoute () {
       return '/recipes/' + this.recipe.id + '/edit'
     },
-    difficulty () {
-      return this.recipe
+    difficultyLabel () {
+      return getDifficultyLabel(this.recipe.difficulty);
     },
     timeLabel () {
       return getRecipeDurationLabel(this.recipe.time);

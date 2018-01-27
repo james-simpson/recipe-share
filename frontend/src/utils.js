@@ -10,3 +10,8 @@ export function getRecipeDurationLabel (timeInMins) {
 
   return minutes + 'm';
 }
+
+export function getDifficultyLabel (difficultyIndex) {
+	const difficultyLevels = ['Easy', 'Easy/medium', 'Medium', 'Medium/Advanced', 'Advanced'];
+	return difficultyLevels[difficultyIndex];
+}
