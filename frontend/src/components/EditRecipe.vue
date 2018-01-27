@@ -16,7 +16,7 @@
             required
           ></v-text-field>
           <v-layout row wrap>
-            <v-flex xs2 mr-4>
+            <v-flex md2 mr-4>
               <v-select
                 label="hours"
                 :items="hoursOptions"
@@ -25,7 +25,7 @@
                 required
               ></v-select>
             </v-flex>
-            <v-flex xs2 mr-4>
+            <v-flex md2 mr-4>
               <v-select
               label="minutes"
               :items="minutesOptions"
@@ -34,17 +34,17 @@
             ></v-select>
             </v-flex>
           </v-layout>
-          <v-radio-group v-model="recipe.difficulty" row class="difficulty-levels-radio-group">
+          <v-radio-group v-model="recipe.difficulty" :row="displayDifficultiesAsRow" class="difficulty-levels-radio-group">
             <v-radio v-for="(level, i) in difficultyLevels" :label="level" :value="i" ></v-radio>
           </v-radio-group>
           <v-layout row wrap>
-            <v-flex xs2>
+            <v-flex xs4 md2>
               <v-checkbox label="Sweet" v-model="recipe.sweet" light></v-checkbox>
             </v-flex>
-            <v-flex xs2>
+            <v-flex xs4 md2>
               <v-checkbox label="Vegetarian" v-model="recipe.vegetarian" light></v-checkbox>
             </v-flex>
-            <v-flex xs2 v-show="recipe.vegetarian">
+            <v-flex xs4 md2 v-show="recipe.vegetarian">
               <v-checkbox label="Vegan" v-model="recipe.vegan" light></v-checkbox>
             </v-flex>
           </v-layout>
@@ -188,6 +188,14 @@ export default {
     isNewRecipe () {
       return typeof this.id === 'undefined';
     },
+    displayDifficultiesAsRow() {
+      console.log(this.$vuetify.breakpoint.name)
+      switch (this.$vuetify.breakpoint.name) {
+         case 'xs': return false
+         case 'sm': return false
+         default: return true;
+       }
+    }
   },
   methods: {
     saveChanges () {
