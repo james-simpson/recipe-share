@@ -82,7 +82,7 @@ export default {
     var self = this;
     axios.get('http://localhost:8000/api/recipes')
       .then(function (response) {
-        self.$store.commit('updateRecipes', response.data)
+        self.$store.commit('loadRecipes', response.data)
         self.$emit('set-loading', false)
       })
       .catch(function (error) {

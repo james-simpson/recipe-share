@@ -192,22 +192,34 @@ export default {
   methods: {
     saveChanges () {
       this.$emit('set-loading', 'true');
-
       this.recipe.time = this.hours * 60 + this.minutes;
 
-      var self = this;
-      axios.post('http://localhost:8000/api/recipes/add', self.recipe)
-        .then(function (response) {
-
-          if (response.data.status === 'success') {
-            self.$router.push({ name: 'My Recipes' });
-            self.$emit('show-toast', 'Recipe saved');
-          }
-        })
-        .catch(function (error) {
-            console.log('Failed to add recipe: ' + error.message);
-            self.$emit('set-loading', false);
-        });
+      if (this.isNewRecipe) {
+        this.addRecipe()
+      } else {
+        this.updateRecipe()
+      }
+    },
+    addRecipe () {
+      this.$store.dispatch("addRecipe", this.recipe).then((response) => {
+        this.$emit('set-loading', false);
+        this.$router.push({ name: 'My Recipes' });
+        this.$emit('show-toast', 'Recipe saved');
+      }, error => {
+        this.$emit('set-loading', false);
+        this.$emit('show-toast', 'Failed to save recipe');
+      })
+    },
+    updateRecipe () {
+      this.$store.dispatch("updateRecipe", this.recipe).then((response) => {
+        this.$emit('set-loading', false);
+        this.$router.push({ name: 'My Recipes' });
+        this.$emit('show-toast', 'Recipe saved');
+      }, error => {
+        console.log(error)
+        this.$emit('set-loading', false);
+        this.$emit('show-toast', 'Failed to save recipe');
+      })
     },
     cancelChanges () {
       if (this.isNewRecipe) {

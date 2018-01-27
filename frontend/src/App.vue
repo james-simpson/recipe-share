@@ -101,7 +101,7 @@
         title: 'My Recipes',
         toastMessage: '',
         toastVisible: false,
-        loading: true
+        loading: false
       }
     },
 

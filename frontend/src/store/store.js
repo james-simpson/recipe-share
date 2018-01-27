@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios';
 
 Vue.use(Vuex)
 
@@ -13,17 +14,37 @@ const mutations = {
 	clearRecipes (state) {
 		state.recipes = [];
 	},
-	updateRecipes (state, recipes) {
+	loadRecipes (state, recipes) {
 		state.recipes = recipes;
 	},
 	addRecipe (state, recipe) {
 		state.recipes.push(recipe);
-	}
+	},
+  updateRecipe (state, recipe) {
+    const existingRecipe = state.recipes.find(x => x.id == recipe.id)
+    console.log(existingRecipe)
+    state.recipes[state.recipes.indexOf(existingRecipe)] = recipe;
+  }
+}
+
+const actions = {
+  addRecipe (context, recipe) {
+    return axios.post('http://localhost:8000/api/recipes/add', recipe)
+    .then((response) => {
+      context.commit('addRecipe', recipe)
+    })
+  },
+  updateRecipe (context, recipe) {
+    return axios.put('http://localhost:8000/api/recipes/' + recipe.id, recipe)
+    .then((response) => {
+      context.commit('updateRecipe', recipe)
+    })
+  }
 }
 
 const getters = {
   getRecipeById: (state) => (id) => {
-    return state.recipes.find(x => x.id == id)
+    return state.recipes.find(x => x.id == id);
   }
 }
 
@@ -32,7 +53,9 @@ const getters = {
 export default new Vuex.Store({
   state,
   mutations,
+  actions,
   getters,
+
   // use strict mode unless in the production environment,
   // where we want to avoid the performance cost
   strict: process.env.NODE_ENV !== 'production'

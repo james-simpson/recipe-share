@@ -71,6 +71,11 @@ class Recipe
         return $this->id;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     public function getTitle()
     {
         return $this->title;
@@ -170,4 +175,29 @@ class Recipe
     {
         $this->sweet = $sweet;
     }
+
+    /**
+	 * Represent as array
+	 * @return array
+	 */
+	public function toArray(){
+	    $properties = [];
+	    foreach ($this as $name => $value) {
+	        $properties[$name] = $value;
+	    }
+
+	    return $properties;
+	}
+
+	/**
+	 * Create from array
+	 * @param $array
+	 */
+	public function fromArray($array){
+	    foreach ($array as $name => $value) {
+	        if (isset($this->$name) && $name !== 'id'){
+	            $this->$name = $value;
+	        }
+	    }
+	}
 }

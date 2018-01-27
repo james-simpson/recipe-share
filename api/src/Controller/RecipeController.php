@@ -56,6 +56,27 @@ class RecipeController extends Controller
     }
 
     /**
+     * @Route("/api/recipes/{id}")
+     * @Method({"PUT", "OPTIONS"})
+     */
+    public function updateRecipeAction($id, Request $request) {
+    	$db = $this->getDoctrine()->getManager();
+	    $recipe = $db->getRepository(Recipe::class)->find($id);
+
+	    if (!$recipe) {
+	        throw $this->createNotFoundException('No recipe found for id ' . $id);
+	    }
+
+	    $recipeJson = $request->getContent();
+		$updated = $this->serializer->deserialize($recipeJson, Recipe::class, 'json');
+		$recipe->fromArray($updated->toArray());
+		$db->persist($recipe);
+		$db->flush();
+
+    	return new JsonResponse(array('status' => 'success'));
+    }
+
+    /**
      * @Route("/api/recipes/{id}/delete")
      * @Method({"DELETE", "OPTIONS"})
      */
