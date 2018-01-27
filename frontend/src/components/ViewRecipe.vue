@@ -23,13 +23,22 @@
               {{ difficultyLabel }}
             </v-chip>
             <v-chip
-              v-if="recipe.vegetarian"
+              v-if="recipe.vegetarian && !recipe.vegan"
               color="grey darken-2"
               text-color="white"
               small
               disabled
             >
               Vegetarian
+            </v-chip>
+            <v-chip
+              v-if="recipe.vegan"
+              color="grey darken-2"
+              text-color="white"
+              small
+              disabled
+            >
+              Vegan
             </v-chip>
           </div>
         </v-layout>
