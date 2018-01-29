@@ -49,7 +49,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }),
 
     new webpack.DefinePlugin({
-      'API_URL': "'localhost:8000/api/'"
+      'API_URL': "'http://localhost:8000/api/'"
     })
   ]
 })
