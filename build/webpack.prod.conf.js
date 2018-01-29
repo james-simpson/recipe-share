@@ -112,7 +112,11 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+
+    new webpack.DefinePlugin({
+      'API_URL': "'https://recipe-library-api.herokuapp.com/api/'"
+    })
   ]
 })
 

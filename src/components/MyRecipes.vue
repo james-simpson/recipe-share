@@ -80,7 +80,7 @@ export default {
     this.$emit('set-loading', true)
 
     var self = this;
-    axios.get('http://localhost:8000/api/recipes')
+    axios.get(API_URL + 'recipes')
       .then(function (response) {
         self.$store.commit('loadRecipes', response.data)
         self.$emit('set-loading', false)

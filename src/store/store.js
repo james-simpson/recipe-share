@@ -34,19 +34,19 @@ const mutations = {
 
 const actions = {
   addRecipe (context, recipe) {
-    return axios.post('http://localhost:8000/api/recipes/add', recipe)
+    return axios.post(API_URL + 'recipes/add', recipe)
     .then((response) => {
       context.commit('addRecipe', recipe)
     })
   },
   updateRecipe (context, recipe) {
-    return axios.put('http://localhost:8000/api/recipes/' + recipe.id, recipe)
+    return axios.put(API_URL + 'recipes/' + recipe.id, recipe)
     .then((response) => {
       context.commit('updateRecipe', recipe)
     })
   },
   deleteRecipe (context, recipe) {
-    return axios.delete('http://localhost:8000/api/recipes/' + recipe.id + '/delete')
+    return axios.delete(API_URL + 'recipes/' + recipe.id + '/delete')
     .then(function (response) {
       context.commit('deleteRecipe', recipe)
     })
