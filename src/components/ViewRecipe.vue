@@ -208,18 +208,15 @@ export default {
   methods: {
     handleDelete () {
       this.$emit('set-loading', 'true');
-      var self = this;
-      axios.delete('http://localhost:8000/api/recipes/' + this.recipe.id + '/delete')
-        .then(function (response) {
-          console.log(response.data)
-          if (response.data.status === 'success') {
-            self.$router.push({ name: 'My Recipes' })
-            self.$emit('show-toast', 'Recipe deleted');
-          }
-        })
-        .catch(function (error) {
-            console.log('Failed to add recipe: ' + error.message);
-        });
+      this.$store.dispatch("deleteRecipe", this.recipe).then((response) => {
+        this.$emit('set-loading', false);
+        this.$router.push({ name: 'My Recipes' });
+        this.$emit('show-toast', 'Recipe deleted');
+      }, error => {
+        console.log(error)
+        this.$emit('set-loading', false);
+        this.$emit('show-toast', 'Failed to delete recipe');
+      })
     },
 
     // enter fullscreen mode, focusing on the ingredients and method

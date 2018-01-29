@@ -22,8 +22,13 @@ const mutations = {
 	},
   updateRecipe (state, recipe) {
     const existingRecipe = state.recipes.find(x => x.id == recipe.id)
-    console.log(existingRecipe)
     state.recipes[state.recipes.indexOf(existingRecipe)] = recipe;
+  },
+  deleteRecipe (state, recipe) {
+    const index = state.recipes.indexOf(recipe)
+    if (index !== -1) {
+      state.recipes.splice(index, 1)
+    }
   }
 }
 
@@ -38,6 +43,12 @@ const actions = {
     return axios.put('http://localhost:8000/api/recipes/' + recipe.id, recipe)
     .then((response) => {
       context.commit('updateRecipe', recipe)
+    })
+  },
+  deleteRecipe (context, recipe) {
+    return axios.delete('http://localhost:8000/api/recipes/' + recipe.id + '/delete')
+    .then(function (response) {
+      context.commit('deleteRecipe', recipe)
     })
   }
 }
