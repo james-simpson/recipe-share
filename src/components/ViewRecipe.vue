@@ -95,7 +95,6 @@
           bottom
           right
           color="pink"
-          :hover="true"
         >
           <v-btn
             slot="activator"
