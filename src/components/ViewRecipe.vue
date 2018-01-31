@@ -264,6 +264,7 @@ export default {
 .recipe-text {
   white-space: pre-wrap; 
   font-family: inherit;
+  /*font-size: 2.5vh;*/
 }
 
 .left-fab {
@@ -292,5 +293,9 @@ export default {
 .fullscreen-text {
   height: 90vh;
   overflow: auto;
+}
+
+@media(max-width:500px) {
+  .recipe-text { font-size: 125% }
 }
 </style>
