@@ -69,7 +69,13 @@
             >
               <v-card flat class="recipe-text">
                 <v-card-text class='recipe-text'>
-                  <textarea v-autosize="tab.text" v-model="tab.text" class="textarea-input"></textarea>
+                  <textarea
+                    v-autosize="tab.text"
+                    :value="tab.text"
+                    :id="'tab-text-' + i"
+                    class="textarea-input"
+                    @input="handleTextareaChanged" 
+                  ></textarea>
               </v-card-text>
               </v-card>
             </v-tabs-content>
@@ -235,6 +241,17 @@ export default {
         this.$router.push({ name: 'View Recipe', params: { id: this.id } });
       }
     },
+
+    // Update the ingredients and method whenever those textareas are changed.
+    // This was added as v-model didn't seem to work on a computed property 
+    // which is an array of objects.
+    handleTextareaChanged (event) {
+      if (event.target.id === 'tab-text-0') {
+        this.recipe.ingredients = event.target.value
+      } else if (event.target.id === 'tab-text-1') {
+        this.recipe.method = event.target.value
+      }
+    }
   },
   created () {
     if (!this.isNewRecipe) {
