@@ -60,6 +60,7 @@
                 v-for="(tab, i) in tabs"
                 :key="i"
                 :id="'tab-' + i"
+                :class="{ 'fullscreen-text': fullscreen }"
               >
                 <v-card flat class="recipe-text">
                   <v-card-text>{{ tab.text }}</v-card-text>
@@ -72,14 +73,22 @@
               <v-card dark color="cyan">
                 <v-card-text class="recipe-detail-card-header">ingredients</v-card-text>
                 <div class="recipe-card-underline yellow"></div>
-                <v-card-text class='recipe-text recipe-detail-card-text'>{{ recipe.ingredients }}</v-card-text>
+                <v-card-text
+                  class='recipe-text recipe-detail-card-text'
+                  :class="{ 'fullscreen-text': fullscreen }"
+                >{{ recipe.ingredients }}
+                </v-card-text>
               </v-card>
             </v-flex>
             <v-flex xs9>
-              <v-card dark color="cyan">
+              <v-card dark color="cyan" :class="{ 'fullscreen-text': fullscreen }">
                 <v-card-text class="recipe-detail-card-header">method</v-card-text>
                 <div class="recipe-card-underline yellow"></div>
-                <v-card-text class='recipe-text recipe-detail-card-text'>{{ recipe.method }}</v-card-text>
+                <v-card-text
+                  class='recipe-text recipe-detail-card-text'
+                  :class="{ 'fullscreen-text': fullscreen }"
+                >{{ recipe.method }}
+                </v-card-text>
               </v-card>
             </v-flex>
           </v-layout>
@@ -173,7 +182,7 @@ export default {
       active: null,
       showFabs: false,
       fab: false,
-      fullscreen: true
+      fullscreen: false
     }
   },
   computed: {
@@ -221,17 +230,31 @@ export default {
     // enter fullscreen mode, focusing on the ingredients and method
     requestFullscreen () {
       this.fullscreen = !this.fullscreen
-      this.getreqfullscreen().call(document.getElementById('recipeDetailsContainer')) 
+      this.getRequestFullscreen().call(document.getElementById('recipeDetailsContainer')) 
     },
 
     // get the supported function to request fullscreen
-    getreqfullscreen(){
-      var root = document.documentElement
+    getRequestFullscreen () {
+      let root = document.documentElement
       return root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen
+    },
+    addFullscreenListener () {
+      document.addEventListener("fullscreenchange", this.onFullScreenChange, false);
+      document.addEventListener("webkitfullscreenchange", this.onFullScreenChange, false);
+      document.addEventListener("mozfullscreenchange", this.onFullScreenChange, false);
+    },
+    onFullScreenChange () {
+      let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+      if (fullscreenElement === null) {
+        this.fullscreen = false;
+      } else {
+        this.fullscreen = true;
+      }
     }
   },
   mounted () {
     this.showFabs = true;
+    this.addFullscreenListener();
   }
 }
 </script>
@@ -265,5 +288,9 @@ export default {
 }
 .recipe-author-text {
   font-size: 16px;
+}
+.fullscreen-text {
+  height: 90vh;
+  overflow: auto;
 }
 </style>
