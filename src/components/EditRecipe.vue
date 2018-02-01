@@ -262,7 +262,8 @@ export default {
       this.recipe =  Object.assign({}, recipeFromStore);
     } else {
       // new recipe
-      return { title: '', vegetarian: false, vegan: false, sweet: false };
+      this.recipe =  { title: '', ingredients: '', method: '', vegetarian: false, vegan: false, sweet: false };
+      return;
     } 
 
     this.hours = Math.floor(this.recipe.time / 60);
