@@ -50,6 +50,13 @@ const actions = {
     .then(function (response) {
       context.commit('deleteRecipe', recipe)
     })
+  },
+  uploadImage (context, data) {
+    return axios.post(`${API_URL}recipes/${data.id}/image`, data.formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 }
 

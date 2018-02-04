@@ -44,7 +44,7 @@
         </v-flex>
         <v-flex xs5>
           <v-card-media
-            :src="imagePath"
+            :src="image"
             height="120px"
             contain
             center
@@ -83,9 +83,6 @@
         }
 
         return 'cyan darken-1';
-      },
-      imagePath () {
-        return '/static/' + this.image;
       },
       difficultyLevel () {
         return getDifficultyLabel(this.difficulty);
