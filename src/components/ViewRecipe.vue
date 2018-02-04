@@ -1,11 +1,12 @@
 <template>
   <v-content>
     <v-container fluid>
-      <v-flex xs12 md12>
-        <h2 class="mb-2 mr-4">{{ recipe.title }}</h2>
-        <v-layout row wrap class="mb-2">
-          <p class="recipe-author-text mr-4">{{ recipe.author }}</p>
-          <div>
+      <v-layout row wrap>
+        <div class="recipe-info">
+          <h2 class="mb-2">{{ recipe.title }}</h2>
+          <div class="recipe-author-text mb-2">{{ recipe.author }}</div>
+          <div class="mb-2">Serves 2-3</div>
+          <v-layout row wrap class="mb-2">
             <v-chip
               color="grey darken-2"
               text-color="white"
@@ -40,60 +41,63 @@
             >
               Vegan
             </v-chip>
-          </div>
-        </v-layout>
-        <v-container grid-list-md id="recipeDetailsContainer">
-          <v-tabs v-model="active" lazy class="hidden-md-and-up">
-            <v-tabs-bar class="cyan" dark>
-              <v-tabs-item
-                v-for="tab in tabs"
-                :key="tab.id"
-                :href="'#' + tab.id"
-                ripple
-              >
-                {{ tab.title}}
-              </v-tabs-item>
-              <v-tabs-slider color="yellow"></v-tabs-slider>
-            </v-tabs-bar>
-            <v-tabs-items>
-              <v-tabs-content
-                v-for="(tab, i) in tabs"
-                :key="i"
-                :id="'tab-' + i"
-                :class="{ 'fullscreen-text': fullscreen }"
-              >
-                <v-card flat class="recipe-text">
-                  <v-card-text>{{ tab.text }}</v-card-text>
-                </v-card>
-              </v-tabs-content>
-            </v-tabs-items>
-          </v-tabs>
-          <v-layout row wrap hidden-sm-and-down>
-            <v-flex xs3>
-              <v-card dark color="cyan">
-                <v-card-text class="recipe-detail-card-header">ingredients</v-card-text>
-                <div class="recipe-card-underline yellow"></div>
-                <v-card-text
-                  class='recipe-text recipe-detail-card-text'
-                  :class="{ 'fullscreen-text': fullscreen }"
-                >{{ recipe.ingredients }}
-                </v-card-text>
-              </v-card>
-            </v-flex>
-            <v-flex xs9>
-              <v-card dark color="cyan" :class="{ 'fullscreen-text': fullscreen }">
-                <v-card-text class="recipe-detail-card-header">method</v-card-text>
-                <div class="recipe-card-underline yellow"></div>
-                <v-card-text
-                  class='recipe-text recipe-detail-card-text'
-                  :class="{ 'fullscreen-text': fullscreen }"
-                >{{ recipe.method }}
-                </v-card-text>
-              </v-card>
-            </v-flex>
           </v-layout>
-        </v-container>
-      </v-flex>
+        </div>
+        <img :src="recipe.image" class="recipe-image-large"/>
+      </v-layout>
+        
+      <v-container grid-list-md id="recipeDetailsContainer">
+        <v-tabs v-model="active" lazy class="hidden-md-and-up">
+          <v-tabs-bar class="cyan" dark>
+            <v-tabs-item
+              v-for="tab in tabs"
+              :key="tab.id"
+              :href="'#' + tab.id"
+              ripple
+            >
+              {{ tab.title}}
+            </v-tabs-item>
+            <v-tabs-slider color="yellow"></v-tabs-slider>
+          </v-tabs-bar>
+          <v-tabs-items>
+            <v-tabs-content
+              v-for="(tab, i) in tabs"
+              :key="i"
+              :id="'tab-' + i"
+              :class="{ 'fullscreen-text': fullscreen }"
+            >
+              <v-card flat class="recipe-text">
+                <v-card-text>{{ tab.text }}</v-card-text>
+              </v-card>
+            </v-tabs-content>
+          </v-tabs-items>
+        </v-tabs>
+        <v-layout row wrap hidden-sm-and-down>
+          <v-flex xs3>
+            <v-card dark color="cyan">
+              <v-card-text class="recipe-detail-card-header">ingredients</v-card-text>
+              <div class="recipe-card-underline yellow"></div>
+              <v-card-text
+                class='recipe-text recipe-detail-card-text'
+                :class="{ 'fullscreen-text': fullscreen }"
+              >{{ recipe.ingredients }}
+              </v-card-text>
+            </v-card>
+          </v-flex>
+          <v-flex xs9>
+            <v-card dark color="cyan" :class="{ 'fullscreen-text': fullscreen }">
+              <v-card-text class="recipe-detail-card-header">method</v-card-text>
+              <div class="recipe-card-underline yellow"></div>
+              <v-card-text
+                class='recipe-text recipe-detail-card-text'
+                :class="{ 'fullscreen-text': fullscreen }"
+              >{{ recipe.method }}
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+
       <v-fab-transition>
         <v-speed-dial
           v-show="showFabs"
@@ -266,6 +270,9 @@ export default {
   font-family: inherit;
   /*font-size: 2.5vh;*/
 }
+.recipe-info {
+  margin-right: 80px;
+}
 
 .left-fab {
   margin-right: 80px;
@@ -289,6 +296,10 @@ export default {
 }
 .recipe-author-text {
   font-size: 16px;
+}
+.recipe-image-large {
+  height: 150px;
+  margin-bottom: 10px;
 }
 .fullscreen-text {
   height: 90vh;
