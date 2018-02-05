@@ -5,7 +5,7 @@
         <div class="recipe-info">
           <h2 class="mb-2">{{ recipe.title }}</h2>
           <div class="recipe-author-text mb-2">{{ recipe.author }}</div>
-          <div class="mb-2">Serves 2-3</div>
+          <div class="mb-2">Serves {{ recipe.servings }}</div>
           <v-layout row wrap class="mb-2">
             <v-chip
               color="grey darken-2"

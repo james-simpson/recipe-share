@@ -1,6 +1,6 @@
 <template>
-  <v-flex md9 xs9>
-    <v-text-field label="Select Image" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
+  <v-flex>
+    <v-text-field label="Select image (optional)" @click='pickFile' v-model='imageName' prepend-icon='attach_file'></v-text-field>
     <input
       type="file"
       style="display: none"

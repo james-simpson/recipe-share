@@ -2,7 +2,7 @@
   <v-content>
     <v-container fluid>
       <v-form v-model="valid">
-        <v-flex md6>
+        <v-flex md6 sm8>
           <v-text-field
             label="Title"
             v-model="recipe.title"
@@ -15,27 +15,37 @@
             v-model="recipe.author"
             required
           ></v-text-field>
-          <image-upload :imageUrl="recipe.image" @image-changed="onImageChanged"></image-upload>
+          
         </v-flex>
-        <v-layout row wrap>
-          <v-flex md2 mr-4>
-            <v-select
-              label="hours"
-              :items="hoursOptions"
-              v-model="hours"
-              prepend-icon="hourglass_empty"
+        <v-flex md5 sm6>
+          <image-upload :imageUrl="recipe.image" @image-changed="onImageChanged"></image-upload>
+          <v-layout row wrap>
+            <v-flex mr-4>
+              <v-select
+                label="hours"
+                :items="hoursOptions"
+                v-model="hours"
+                prepend-icon="hourglass_empty"
+                required
+              ></v-select>
+            </v-flex>
+            <v-flex>
+              <v-select
+              label="minutes"
+              :items="minutesOptions"
+              v-model="minutes"
               required
             ></v-select>
-          </v-flex>
-          <v-flex md2 mr-4>
-            <v-select
-            label="minutes"
-            :items="minutesOptions"
-            v-model="minutes"
+            </v-flex>
+          </v-layout>
+          <v-text-field
+            label="Serves"
+            placeholder="Number of servings e.g. 3-4"
+            v-model="recipe.servings"
+            prepend-icon="people"
             required
-          ></v-select>
-          </v-flex>
-        </v-layout>
+          ></v-text-field>
+        </v-flex>
         <v-radio-group v-model="recipe.difficulty" :row="displayDifficultiesAsRow" class="difficulty-levels-radio-group">
           <v-radio v-for="(level, i) in difficultyLevels" :label="level" :value="i" ></v-radio>
         </v-radio-group>
@@ -43,10 +53,10 @@
           <v-flex xs12 md2>
             <v-checkbox label="Sweet" v-model="recipe.sweet" light></v-checkbox>
           </v-flex>
-          <v-flex xs4 md2>
+          <v-flex xs5 sm3 md2>
             <v-checkbox label="Vegetarian" v-model="recipe.vegetarian" light></v-checkbox>
           </v-flex>
-          <v-flex xs4 md2 v-show="recipe.vegetarian">
+          <v-flex xs5 sm3 md2 v-show="recipe.vegetarian">
             <v-checkbox label="Vegan" v-model="recipe.vegan" light></v-checkbox>
           </v-flex>
         </v-layout>
@@ -302,7 +312,16 @@ export default {
       this.recipe =  Object.assign({}, recipeFromStore);
     } else {
       // new recipe
-      this.recipe =  { title: '', ingredients: '', method: '', vegetarian: false, vegan: false, sweet: false };
+      this.recipe = {
+        title: '',
+        ingredients: '',
+        method: '',
+        servings: '',
+        vegetarian: false,
+        vegan: false,
+        sweet: false
+      };
+
       return;
     } 
 
