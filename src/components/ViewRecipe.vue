@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container fluid>
-      <v-layout row wrap>
+      <v-layout row wrap class="header-layout">
         <div class="recipe-info">
           <h2 class="mb-2">{{ recipe.title }}</h2>
           <div class="recipe-author-text mb-2">{{ recipe.author }}</div>
@@ -263,17 +263,22 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+/* This ensures that there will be an 80px gap between
+   the recipe header text (title, author etc.) and the image
+   if they are displayed side by side. */
+.header-layout {
+  margin-left: -80px;
+}
+.header-layout > * {
+  margin-left: 80px;
+}
+
 .recipe-text {
   white-space: pre-wrap; 
   font-family: inherit;
-  /*font-size: 2.5vh;*/
 }
-.recipe-info {
-  margin-right: 80px;
-}
-
 .left-fab {
   margin-right: 80px;
 }
@@ -288,7 +293,6 @@ export default {
   color: rgba(0,0,0,0.87);
   text-align: left;
   font-size: 15px;
-  /* TODO: add line-height property for ingredients */
 }
 .recipe-card-underline {
   padding: 0;
