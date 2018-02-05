@@ -8,7 +8,7 @@
       accept="image/*"
       @change="onFilePicked"
     >
-    <img :src="imageUrlToShow" height="150" v-if="imageUrl" id="recipeImage"/>
+    <img :src="imageUrlToShow" height="150" v-if="imageUrlToShow" id="recipeImage"/>
   </v-flex>
 </template>
 
