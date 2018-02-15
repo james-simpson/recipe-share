@@ -23,21 +23,24 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <!-- TODO: change toolbar colour. maybe #1055a4? -->
-    <v-toolbar fixed app clipped-left class="indigo" dark>
+
+    <v-toolbar fixed app clipped-left height="52px" class="blue darken-3" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.smAndUp ? 'width: 260px; min-width: 250px' : 'display: none'" class="ml-0 pl-3"></v-toolbar-title>
+      <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.mdAndUp ? 'width: 260px; min-width: 250px' : 'display: none'" class="ml-0 pl-3"></v-toolbar-title>
       <v-text-field
         light
         solo
         prepend-icon="search"
         placeholder="Search recipes"
-        style="max-width: 500px; min-width: 200px"
+        class="search-field"
+        :class="{ 'search-field-small': $vuetify.breakpoint.smAndDown }"
       ></v-text-field>
-      <v-spacer></v-spacer>
-      <v-btn flat dark v-if="!authenticated" @click="login">Log in</v-btn>
-      <v-btn flat dark v-if="authenticated" @click="logout">Log out</v-btn>
+      <v-flex class="text-xs-right" style="margin-right: 0;">
+        <v-btn flat dark v-if="!authenticated" @click="login">Log in</v-btn>
+        <v-btn flat dark v-if="authenticated" @click="logout">Log out</v-btn>
+      </v-flex xs1>
     </v-toolbar>
+
     <div class="progress-bar" v-if="loading">
       <v-progress-linear
           v-bind:indeterminate="true"
@@ -46,6 +49,7 @@
           :class="{ loadingWithNav: drawer }"
       ></v-progress-linear>
     </div>
+
     <transition name="page">
       <router-view
         :auth="auth"
@@ -55,6 +59,7 @@
         v-show="!loading"
       ></router-view>
     </transition>
+
     <v-snackbar
       :timeout="2000"
       top
@@ -160,5 +165,20 @@
 .loadingWithNav {
   margin-left: 310px;
   width: calc(100% - 320px);
+}
+
+.search-field {
+  min-width: 190px;
+  max-width: 500px;
+  min-height: unset !important;
+}
+
+.toolbar .search-field .input-group__input {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.search-field-small {
+  margin-left: 10px;
 }
 </style>
