@@ -26,7 +26,7 @@
     <!-- TODO: change toolbar colour. maybe #1055a4? -->
     <v-toolbar fixed app clipped-left class="indigo" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.smAndUp ? 'width: 260px; min-width: 250px' : 'min-width: 72px'" class="ml-0 pl-3"></v-toolbar-title>
+      <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.smAndUp ? 'width: 260px; min-width: 250px' : 'display: none'" class="ml-0 pl-3"></v-toolbar-title>
       <v-text-field
         light
         solo
@@ -35,6 +35,8 @@
         style="max-width: 500px; min-width: 200px"
       ></v-text-field>
       <v-spacer></v-spacer>
+      <v-btn flat dark v-if="!authenticated" @click="login">Log in</v-btn>
+      <v-btn flat dark v-if="authenticated" @click="logout">Log out</v-btn>
     </v-toolbar>
     <div class="progress-bar" v-if="loading">
       <v-progress-linear
@@ -46,6 +48,8 @@
     </div>
     <transition name="page">
       <router-view
+        :auth="auth" 
+        :authenticated="authenticated"
         @show-toast=displayToast
         @set-loading=setLoading
         v-show="!loading"
@@ -59,19 +63,30 @@
       class="toast"
     >
       {{ toastMessage }}
-      <v-icon color="pink">done</v-icon>
+      <v-icon color="green">done</v-icon>
     </v-snackbar>
   </v-app>
 </template>
 
 <script>
-  import RecipeCard from './components/RecipeCard';
+  import './../static/css/main.css'
+  import RecipeCard from './components/RecipeCard'
+  import AuthService from './authentication/AuthService'
+
+  const auth = new AuthService()
+  const { login, logout, authenticated, authNotifier } = auth
 
   export default {
     components: { RecipeCard },
     data () {
+      authNotifier.on('authChange', authState => {
+        this.authenticated = authState.authenticated
+      })
+
       return {
         appName: 'Recipe Share',
+        auth,
+        authenticated,
         clipped: false,
         drawer: false,
         fixed: true,
@@ -106,6 +121,8 @@
     },
 
     methods: {
+      login,
+      logout,
       displayToast (message) {
         this.toastMessage = message
         this.toastVisible = true

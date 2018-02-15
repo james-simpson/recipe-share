@@ -11,19 +11,26 @@
             :title="recipe.title"
             :author="recipe.author"
             :image="recipe.image"
-            :attributes="recipe.attributes"
+            :time="recipe.time"
+            :difficulty="recipe.difficulty"
+            :difficultyLevels="difficultyLevels"
+            :vegetarian="recipe.vegetarian"
+            :vegan="recipe.vegan"
+            :sweet="recipe.sweet"
+            :to="viewRecipeRoute(recipe.id)"
             class="white--text"
           ></recipe-card>
         </v-flex>
       </v-layout>
     </v-container>
-    <div class="text-xs-center pt-3 pb-5">
+    <!-- <div class="text-xs-center pt-3 pb-5">
       <v-pagination :length="6" v-model="page" circle></v-pagination>
-    </div>
+    </div> -->
   </v-content>
 </template>
 
 <script>
+import axios from 'axios';
 import RecipeCard from './RecipeCard';
 
 export default {
@@ -31,74 +38,37 @@ export default {
   components: { RecipeCard },
   data () {
     return {
-      recipes: [
-        {
-          title: 'Spaghetti carbonara',
-          author: 'Jamie Oliver',
-          image: '/static/carbonara.jpeg',
-          color: 'cyan darken-2',
-          attributes: {
-            time: '15m',
-            difficulty: 'Easy',
-            vegetarian: false
-          },
-        },
-        {
-          title: 'Butternut squash lasagne',
-          author: 'Nigella Lawson',
-          image: '/static/butternut-squash-lasagne.jpg',
-          color: 'green',
-          attributes: {
-            time: '2h 30m',
-            difficulty: 'Medium',
-            vegetarian: true
-          },
-        },
-        {
-          title: 'Chocolate brownies',
-          author: 'Mary Berry',
-          image: '/static/brownies.jpg',
-          color: 'pink lighten-2',
-          attributes: {
-            time: '1h 30m',
-            difficulty: 'Easy',
-            vegetarian: true,
-            sweet: true
-          },
-        },
-        {
-          title: 'Classic Melton Mowbray pork pie',
-          author: 'Hairy bikers',
-          image: '/static/melton-mowbray.jpg',
-          color: 'cyan darken-2',
-          attributes: {
-            time: '3h',
-            difficulty: 'Advanced',
-            vegetarian: false
-          },
-        },
-      ],
+      difficultyLevels: ['Easy', 'Easy/medium', 'Medium', 'Medium/Advanced', 'Advanced'],
       hover: true,
       page: 1,
+      addRecipeRoute: '/recipes/add',
+      showAddButton: true,
+      loading: false,
     }
+  },
+  computed: {
+    recipes () {
+      return this.$store.state.recipes;
+    }
+  },
+  methods: {
+    viewRecipeRoute (id) {
+      return '/recipes/' + id;
+    }
+  },
+  created () {
+    this.$store.commit('clearRecipes')
+    this.$emit('set-loading', true)
+
+    var self = this;
+    axios.get(app_config.API_URL + 'recipes/all')
+    .then(function (response) {
+      self.$store.commit('loadRecipes', response.data)
+      self.$emit('set-loading', false)
+    })
+    .catch(function (error) {
+        console.log(error.message);
+    });
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>

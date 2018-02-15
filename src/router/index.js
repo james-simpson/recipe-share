@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import AuthCallback from '@/components/AuthCallback'
+import SharedRecipes from '@/components/SharedRecipes'
 import MyRecipes from '@/components/MyRecipes'
 import ViewRecipe from '@/components/ViewRecipe'
 import EditRecipe from '@/components/EditRecipe'
@@ -7,15 +9,21 @@ import EditRecipe from '@/components/EditRecipe'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
-      path: '/recipes/my-recipes',
-      name: 'My Recipes',
-      component: MyRecipes
+      path: '/auth-callback',
+      name: 'Auth Callback',
+      component: AuthCallback
     },
     {
       path: '/recipes/shared',
       name: 'Shared Recipes',
+      component: SharedRecipes
+    },
+    {
+      path: '/recipes/my-recipes',
+      name: 'My Recipes',
       component: MyRecipes
     },
     {
@@ -35,5 +43,8 @@ export default new Router({
       component: EditRecipe,
       props: true
     },
+
+    // Fallback route
+    { path: '*', redirect: '/recipes/shared' }
   ]
 })

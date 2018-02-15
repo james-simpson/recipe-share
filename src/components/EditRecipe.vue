@@ -1,7 +1,12 @@
 <template>
   <v-content>
-    <v-container fluid>
-      <v-form v-model="valid">
+    <v-container v-if="!authenticated">
+      <h2 class="login-prompt-text title text-xs-center">
+        Log in or sign up to add recipes
+      </h2>
+    </v-container>
+    <v-container fluid v-if="authenticated">
+      <v-form v-model="valid" ref="form" autofocus="true">
         <v-flex md6 sm8>
           <v-text-field
             label="Title"
@@ -13,7 +18,6 @@
           <v-text-field
             label="Author"
             v-model="recipe.author"
-            required
           ></v-text-field>
           
         </v-flex>
@@ -168,7 +172,7 @@ import axios from 'axios';
 
 export default {
   name: 'EditRecipe',
-  props: ['id'],
+  props: ['id', 'authenticated'],
   components: { ImageUpload },
   data () {
     return {
@@ -222,6 +226,11 @@ export default {
   },
   methods: {
     saveChanges () {
+      console.log(this.$refs.form)
+      if (!this.$refs.form.validate()) {
+        return;
+      }
+
       this.$emit('set-loading', 'true');
       this.recipe.time = this.hours * 60 + this.minutes;
 
@@ -336,6 +345,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 .recipe-text {
   white-space: pre-wrap; 
   font-family: inherit;

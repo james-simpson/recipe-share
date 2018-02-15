@@ -3,6 +3,16 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const webpack = require('webpack')
+require('dotenv').config()
+
+const appConfig = {
+  API_URL: process.env.API_URL,
+  AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+  AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+  AUTH0_REDIRECT_URI: process.env.AUTH0_REDIRECT_URI,
+  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE
+}
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -74,5 +84,10 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'app_config': JSON.stringify(appConfig)
+    })
+  ]
 }

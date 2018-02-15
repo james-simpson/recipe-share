@@ -1,6 +1,12 @@
 <template>
   <v-content>
+    <v-container v-if="!authenticated">
+      <h2 class="login-prompt-text title text-xs-center">
+        Log in or sign up to see recipes you've added
+      </h2>
+    </v-container>
     <v-container
+      v-if="authenticated"
       fluid
       style="min-height: 0;"
       grid-list-lg
@@ -45,12 +51,13 @@
 </template>
 
 <script>
-import RecipeCard from './RecipeCard';
 import axios from 'axios';
+import RecipeCard from './RecipeCard';
 
 export default {
   name: 'MyRecipes',
   components: { RecipeCard },
+  props: ['auth', 'authenticated'],
   data () {
     return {
       difficultyLevels: ['Easy', 'Easy/medium', 'Medium', 'Medium/Advanced', 'Advanced'],
@@ -76,11 +83,14 @@ export default {
     }
   },
   created () {
-    this.$store.commit('clearRecipes')
-    this.$emit('set-loading', true)
+    if (this.authenticated) {
+      this.$store.commit('clearRecipes')
+      this.$emit('set-loading', true)
 
-    var self = this;
-    axios.get(API_URL + 'recipes')
+      var self = this;
+      axios.get(app_config.API_URL + 'recipes/my-recipes', {
+        headers: this.auth.getAuthHeader()
+      })
       .then(function (response) {
         self.$store.commit('loadRecipes', response.data)
         self.$emit('set-loading', false)
@@ -88,6 +98,7 @@ export default {
       .catch(function (error) {
           console.log(error.message);
       });
+    }
   },
   mounted () {
     this.showFabs = true;

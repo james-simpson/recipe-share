@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios';
+import AuthService from './../authentication/AuthService';
+
+const auth = new AuthService();
 
 Vue.use(Vuex)
 
@@ -34,7 +37,9 @@ const mutations = {
 
 const actions = {
   addRecipe (context, recipe) {
-    return axios.post(API_URL + 'recipes/add', recipe)
+    return axios.post(API_URL + 'recipes/add', recipe, {
+      headers: auth.getAuthHeader()
+    })
     .then((response) => {
       context.commit('addRecipe', recipe)
     })

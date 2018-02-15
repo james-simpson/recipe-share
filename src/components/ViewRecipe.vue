@@ -45,7 +45,7 @@
         </div>
         <img :src="recipe.image" class="recipe-image-large"/>
       </v-layout>
-        
+
       <v-container grid-list-md id="recipeDetailsContainer">
         <v-tabs v-model="active" lazy class="hidden-md-and-up">
           <v-tabs-bar class="cyan" dark>
@@ -156,7 +156,7 @@
       <v-fab-transition>
         <v-btn
           v-show="showFabs"
-          :to="myRecipesRoute"
+          @click="navigateBack"
           fixed
           dark
           fab
@@ -204,12 +204,12 @@ export default {
     },
     tabs () {
       return [
-        { 
+        {
           id: 'tab-0',
           title: 'ingredients',
           text: this.recipe.ingredients
         },
-        { 
+        {
           id: 'tab-1',
           title: 'method',
           text: this.recipe.method
@@ -218,6 +218,13 @@ export default {
     }
   },
   methods: {
+    // go back to my recipes or shared recipes, whichever we came from
+    // TODO: actually do this - maybe use router.beforeEach to store recent
+    // routes
+    navigateBack () {
+      this.$router.push({ name: 'My Recipes' });
+    },
+
     handleDelete () {
       this.$emit('set-loading', 'true');
       this.$store.dispatch("deleteRecipe", this.recipe).then((response) => {
@@ -234,7 +241,7 @@ export default {
     // enter fullscreen mode, focusing on the ingredients and method
     requestFullscreen () {
       this.fullscreen = !this.fullscreen
-      this.getRequestFullscreen().call(document.getElementById('recipeDetailsContainer')) 
+      this.getRequestFullscreen().call(document.getElementById('recipeDetailsContainer'))
     },
 
     // get the supported function to request fullscreen
@@ -276,7 +283,7 @@ export default {
 }
 
 .recipe-text {
-  white-space: pre-wrap; 
+  white-space: pre-wrap;
   font-family: inherit;
 }
 .left-fab {

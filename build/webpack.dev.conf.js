@@ -46,10 +46,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       inject: true
-    }),
-
-    new webpack.DefinePlugin({
-      'API_URL': "'http://localhost:8000/api/'"
     })
   ]
 })
