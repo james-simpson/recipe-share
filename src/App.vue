@@ -24,7 +24,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar fixed app clipped-left height="52px" class="blue darken-3" dark>
+    <v-toolbar fixed app clipped-left height="54px" class="blue darken-3" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.mdAndUp ? 'width: 260px; min-width: 250px' : 'display: none'" class="ml-0 pl-3"></v-toolbar-title>
       <v-text-field
