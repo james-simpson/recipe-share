@@ -1,11 +1,11 @@
 import auth0 from 'auth0-js'
-import EventEmitter from 'EventEmitter'
 import router from './../router'
+import Vue from 'vue';
 
 export default class AuthService {
 
   authenticated = this.isAuthenticated()
-  authNotifier = new EventEmitter()
+  authNotifier = new Vue();
 
   constructor () {
     this.login = this.login.bind(this)
@@ -55,7 +55,7 @@ export default class AuthService {
     localStorage.setItem('access_token', authResult.accessToken)
     localStorage.setItem('id_token', authResult.idToken)
     localStorage.setItem('expires_at', expiresAt)
-    this.authNotifier.emit('authChange', { authenticated: true })
+    this.authNotifier.$emit('authChange', { authenticated: true })
   }
 
   logout () {
@@ -64,7 +64,7 @@ export default class AuthService {
     localStorage.removeItem('id_token')
     localStorage.removeItem('expires_at')
     this.userProfile = null
-    this.authNotifier.emit('authChange', false)
+    this.authNotifier.$emit('authChange', false)
 
     router.replace('shared')
   }

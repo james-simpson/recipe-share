@@ -48,7 +48,7 @@
     </div>
     <transition name="page">
       <router-view
-        :auth="auth" 
+        :auth="auth"
         :authenticated="authenticated"
         @show-toast=displayToast
         @set-loading=setLoading
@@ -79,7 +79,7 @@
   export default {
     components: { RecipeCard },
     data () {
-      authNotifier.on('authChange', authState => {
+      authNotifier.$on('authChange', authState => {
         this.authenticated = authState.authenticated
       })
 
@@ -160,5 +160,5 @@
 .loadingWithNav {
   margin-left: 310px;
   width: calc(100% - 320px);
-}   
+}
 </style>

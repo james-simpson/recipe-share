@@ -12,7 +12,6 @@
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
-    "EventEmitter": "^1.0.0",
     "auth0-js": "^9.2.2",
     "axios": "^0.17.1",
     "dotenv": "^5.0.0",
