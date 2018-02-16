@@ -52,6 +52,7 @@
 
     <transition name="page">
       <router-view
+        :key="$route.fullPath"
         :auth="auth"
         :authenticated="authenticated"
         @show-toast=displayToast
