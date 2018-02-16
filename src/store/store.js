@@ -35,29 +35,32 @@ const mutations = {
   }
 }
 
+const api = axios.create({
+  baseURL: app_config.API_URL,
+  headers: auth.getAuthHeader()
+});
+
 const actions = {
   addRecipe (context, recipe) {
-    return axios.post(API_URL + 'recipes/add', recipe, {
-      headers: auth.getAuthHeader()
-    })
+    return api.post('recipes/add', recipe)
     .then((response) => {
       context.commit('addRecipe', recipe)
     })
   },
   updateRecipe (context, recipe) {
-    return axios.put(API_URL + 'recipes/' + recipe.id, recipe)
+    return api.put(`recipes/${recipe.id}`, recipe)
     .then((response) => {
       context.commit('updateRecipe', recipe)
     })
   },
   deleteRecipe (context, recipe) {
-    return axios.delete(API_URL + 'recipes/' + recipe.id + '/delete')
+    return api.delete(`recipes/${recipe.id}/delete`)
     .then(function (response) {
       context.commit('deleteRecipe', recipe)
     })
   },
   uploadImage (context, data) {
-    return axios.post(`${API_URL}recipes/${data.id}/image`, data.formData, {
+    return api.post(`recipes/${data.id}/image`, data.formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
