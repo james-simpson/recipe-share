@@ -19,7 +19,7 @@
             label="Author"
             v-model="recipe.author"
           ></v-text-field>
-          
+
         </v-flex>
         <v-flex md5 sm6>
           <image-upload :imageUrl="recipe.image" @image-changed="onImageChanged"></image-upload>
@@ -90,7 +90,7 @@
                   :value="tab.text"
                   :id="'tab-text-' + i"
                   class="textarea-input"
-                  @input="handleTextareaChanged" 
+                  @input="handleTextareaChanged"
                 ></textarea>
             </v-card-text>
             </v-card>
@@ -133,32 +133,32 @@
       </v-container>
       <v-fab-transition>
         <v-btn
-          @click="saveChanges"
-          v-show="showFabs"
-          fixed
-          dark
-          fab
-          bottom
-          right
-          color="pink"
-          class="mb-4 left-fab"
-        >
-          <v-icon>done</v-icon>
-        </v-btn>
-      </v-fab-transition>
-      <v-fab-transition>
-        <v-btn
           @click="cancelChanges"
           v-show="showFabs"
-          fixed
           dark
           fab
           bottom
           right
           color="grey"
-          class="mr-2 mb-4"
+          class="mr-0 mb-0 mt-4"
+          style="position: relative; float: right;"
         >
           <v-icon>clear</v-icon>
+        </v-btn>
+      </v-fab-transition>
+      <v-fab-transition>
+        <v-btn
+          @click="saveChanges"
+          v-show="showFabs"
+          dark
+          fab
+          bottom
+          right
+          color="pink"
+          class="mb-4 mt-4"
+          style="position: relative; float: right;"
+        >
+          <v-icon>done</v-icon>
         </v-btn>
       </v-fab-transition>
     </v-container>
@@ -198,12 +198,12 @@ export default {
   computed: {
     tabs () {
       return [
-        { 
+        {
           id: 'tab-0',
           title: 'ingredients',
           text: this.recipe.ingredients
         },
-        { 
+        {
           id: 'tab-1',
           title: 'method',
           text: this.recipe.method
@@ -302,7 +302,7 @@ export default {
     },
 
     // Update the ingredients and method whenever those textareas are changed.
-    // This was added as v-model didn't seem to work on a computed property 
+    // This was added as v-model didn't seem to work on a computed property
     // which is an array of objects.
     handleTextareaChanged (event) {
       if (event.target.id === 'tab-text-0') {
@@ -332,7 +332,7 @@ export default {
       };
 
       return;
-    } 
+    }
 
     this.hours = Math.floor(this.recipe.time / 60);
     this.minutes = this.recipe.time % 60;
@@ -347,7 +347,7 @@ export default {
 <style scoped>
 
 .recipe-text {
-  white-space: pre-wrap; 
+  white-space: pre-wrap;
   font-family: inherit;
 }
 
