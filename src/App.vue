@@ -85,10 +85,6 @@
   export default {
     components: { RecipeCard },
     data () {
-      authNotifier.$on('authChange', authState => {
-        this.authenticated = authState.authenticated
-      })
-
       return {
         appName: 'Recipe Share',
         auth,
@@ -105,17 +101,17 @@
           {
             title: 'My recipes',
             route: '/recipes/my-recipes',
-            icon: 'favorite',
+            icon: 'favorite'
           },
           {
             title: 'Add recipe',
             route: '/recipes/add',
-            icon: 'add',
+            icon: 'add'
           },
           {
             title: 'Settings',
             route: '/settings',
-            icon: 'settings',
+            icon: 'settings'
           }
         ],
         miniVariant: false,
@@ -124,6 +120,12 @@
         toastVisible: false,
         loading: false
       }
+    },
+
+    created () {
+      authNotifier.$on('authChange', authState => {
+        this.authenticated = authState.authenticated
+      })
     },
 
     methods: {
