@@ -227,14 +227,14 @@ export default {
 
     handleDelete () {
       this.$emit('set-loading', 'true')
+
       this.$store.dispatch('deleteRecipe', this.recipe).then((response) => {
         this.$emit('set-loading', false)
         this.$router.push({ name: 'My Recipes' })
-        this.$emit('show-toast', 'Recipe deleted')
-      }, error => {
-        console.log(error)
+        this.$emit('show-success-msg', 'Recipe deleted')
+      }, () => {
         this.$emit('set-loading', false)
-        this.$emit('show-toast', 'Failed to delete recipe')
+        this.$emit('show-error-msg', 'Failed to delete recipe')
       })
     },
 

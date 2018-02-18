@@ -1,5 +1,10 @@
 <template>
   <v-content>
+    <v-container v-if="showFailureMessage">
+      <h2 class="login-prompt-text title text-xs-center">
+        Unable to load recipes. <a @click="loadRecipes">Retry</a>
+      </h2>
+    </v-container>
     <v-container
       fluid
       style="min-height: 0;"
@@ -30,8 +35,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import RecipeCard from './RecipeCard';
+import RecipeCard from './RecipeCard'
 
 export default {
   name: 'SharedRecipes',
@@ -44,31 +48,31 @@ export default {
       addRecipeRoute: '/recipes/add',
       showAddButton: true,
       loading: false,
+      showFailureMessage: false
     }
   },
   computed: {
     recipes () {
-      return this.$store.state.recipes;
+      return this.$store.state.recipes
     }
   },
   methods: {
+    loadRecipes () {
+      this.$store.commit('clearRecipes')
+      this.$emit('set-loading', true)
+      this.$store.dispatch('loadAllRecipes').then(() => {
+        this.$emit('set-loading', false)
+      }, () => {
+        this.$emit('set-loading', false)
+        this.showFailureMessage = true
+      })
+    },
     viewRecipeRoute (id) {
-      return '/recipes/' + id;
+      return '/recipes/' + id
     }
   },
   created () {
-    this.$store.commit('clearRecipes')
-    this.$emit('set-loading', true)
-
-    var self = this;
-    axios.get(app_config.API_URL + 'recipes/all')
-    .then(function (response) {
-      self.$store.commit('loadRecipes', response.data)
-      self.$emit('set-loading', false)
-    })
-    .catch(function (error) {
-        console.log(error.message);
-    });
+    this.loadRecipes()
   }
 }
 </script>

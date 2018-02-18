@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
+import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
 
 export default {
     name: 'RecipeCard',

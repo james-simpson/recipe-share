@@ -230,20 +230,13 @@ export default {
   },
   methods: {
     saveChanges () {
-      console.log(this.$refs.form)
-      if (!this.$refs.form.validate()) {
-        return
-      }
+      if (!this.$refs.form.validate()) return
 
       this.$emit('set-loading', 'true')
       this.recipe.time = this.hours * 60 + this.minutes
-
-      if (this.isNewRecipe) {
-        this.add()
-      } else {
-        this.update()
-      }
+      this.isNewRecipe ? this.add() : this.update()
     },
+
     add () {
       if (this.imageFile !== '') {
         this.uploadImage()
@@ -255,11 +248,11 @@ export default {
         this.addRecipe()
       }
     },
+
     update () {
       if (this.imageFile !== '') {
         this.uploadImage()
         .then(response => {
-          console.log('imageUrl: ' + response.data.imageUrl)
           this.recipe.image = response.data.imageUrl
           this.updateRecipe()
         })
@@ -267,33 +260,35 @@ export default {
         this.updateRecipe()
       }
     },
+
     addRecipe () {
       this.$store.dispatch('addRecipe', this.recipe).then((response) => {
         this.$emit('set-loading', false)
         this.$router.push({ name: 'My Recipes' })
-        this.$emit('show-toast', 'Recipe saved')
-      }, error => {
+        this.$emit('show-success-msg', 'Recipe saved')
+      }, () => {
         this.$emit('set-loading', false)
-        this.$emit('show-toast', 'Failed to save recipe')
-        console.log(error)
+        this.$emit('show-error-msg', 'Failed to save recipe')
       })
     },
+
     updateRecipe () {
       this.$store.dispatch('updateRecipe', this.recipe).then((response) => {
         this.$emit('set-loading', false)
         this.$router.push({ name: 'My Recipes' })
-        this.$emit('show-toast', 'Recipe saved')
-      }, error => {
-        console.log(error)
+        this.$emit('show-success-msg', 'Recipe saved')
+      }, () => {
         this.$emit('set-loading', false)
-        this.$emit('show-toast', 'Failed to save recipe')
+        this.$emit('show-error-msg', 'Failed to save recipe')
       })
     },
+
     uploadImage () {
       let formData = new FormData()
       formData.append('file', this.imageFile)
       return this.$store.dispatch('uploadImage', { id: this.recipe.id, formData: formData })
     },
+
     cancelChanges () {
       if (this.isNewRecipe) {
         this.$router.push({ name: 'My Recipes' })
@@ -318,14 +313,7 @@ export default {
     }
   },
   created () {
-    if (!this.isNewRecipe) {
-      var recipeFromStore = this.$store.getters.getRecipeById(this.id)
-
-      // clone the recipe from the store so we can edit it without
-      // mutating the store's state
-      this.recipe = Object.assign({}, recipeFromStore)
-    } else {
-      // new recipe
+    if (this.isNewRecipe) {
       this.recipe = {
         title: '',
         ingredients: '',
@@ -335,14 +323,17 @@ export default {
         vegan: false,
         sweet: false
       }
-
-      return
+    } else {
+      var recipeFromStore = this.$store.getters.getRecipeById(this.id)
+      // clone the recipe from the store so we can edit it without
+      // mutating the store's state
+      this.recipe = Object.assign({}, recipeFromStore)
+      this.hours = Math.floor(this.recipe.time / 60)
+      this.minutes = this.recipe.time % 60
     }
-
-    this.hours = Math.floor(this.recipe.time / 60)
-    this.minutes = this.recipe.time % 60
   },
   mounted () {
+    // this will animate the floating buttons when the view is loaded
     this.showFabs = true
   }
 }

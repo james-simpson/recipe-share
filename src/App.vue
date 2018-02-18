@@ -55,7 +55,8 @@
         :key="$route.fullPath"
         :auth="auth"
         :authenticated="authenticated"
-        @show-toast=displayToast
+        @show-success-msg="displaySuccessMessage"
+        @show-error-msg="displayErrorMessage"
         @set-loading=setLoading
         v-show="!loading"
       ></router-view>
@@ -69,21 +70,20 @@
       class="toast"
     >
       {{ toastMessage }}
-      <v-icon color="green">done</v-icon>
+      <v-icon v-if="!errorToast" color="green">done</v-icon>
+      <v-icon v-if="errorToast" color="red">error</v-icon>
     </v-snackbar>
   </v-app>
 </template>
 
 <script>
   import './../static/css/main.css'
-  import RecipeCard from './components/RecipeCard'
   import AuthService from './authentication/AuthService'
 
   const auth = new AuthService()
   const { login, logout, authenticated, authNotifier } = auth
 
   export default {
-    components: { RecipeCard },
     data () {
       return {
         appName: 'Recipe Share',
@@ -116,8 +116,9 @@
         ],
         miniVariant: false,
         title: 'My Recipes',
-        toastMessage: '',
         toastVisible: false,
+        toastMessage: '',
+        errorToast: false,
         loading: false
       }
     },
@@ -131,8 +132,14 @@
     methods: {
       login,
       logout,
-      displayToast (message) {
+      displaySuccessMessage (message) {
         this.toastMessage = message
+        this.errorToast = false
+        this.toastVisible = true
+      },
+      displayErrorMessage (message) {
+        this.toastMessage = message
+        this.errorToast = true
         this.toastVisible = true
       },
       setLoading (loading) {

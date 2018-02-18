@@ -6,9 +6,14 @@
         <a @click="auth.login">sign up</a> to see recipes you've added
       </h2>
     </v-container>
-    <v-container v-if="authenticated && recipes.length === 0">
+    <v-container v-if="authenticated && !showFailureMessage && recipes.length === 0">
       <h2 class="login-prompt-text title text-xs-center">
         No recipes to show. <router-link :to="addRecipeRoute">Add a recipe</router-link>
+      </h2>
+    </v-container>
+    <v-container v-if="authenticated && showFailureMessage">
+      <h2 class="login-prompt-text title text-xs-center">
+        Unable to load recipes. <a @click="loadRecipes">Retry</a>
       </h2>
     </v-container>
     <v-container
@@ -57,13 +62,13 @@
 </template>
 
 <script>
-import axios from 'axios'
 import RecipeCard from './RecipeCard'
 
 export default {
   name: 'MyRecipes',
   components: { RecipeCard },
   props: ['auth', 'authenticated'],
+
   data () {
     return {
       difficultyLevels: ['Easy', 'Easy/medium', 'Medium', 'Medium/Advanced', 'Advanced'],
@@ -72,15 +77,29 @@ export default {
       addRecipeRoute: '/recipes/add',
       showAddButton: true,
       loading: false,
+      showFailureMessage: false,
       showFabs: false
     }
   },
+
   computed: {
     recipes () {
       return this.$store.state.recipes
     }
   },
+
   methods: {
+    loadRecipes () {
+      this.$store.commit('clearRecipes')
+      this.$emit('set-loading', true)
+      this.$store.dispatch('loadMyRecipes').then(() => {
+        this.showFailureMessage = false
+        this.$emit('set-loading', false)
+      }, () => {
+        this.$emit('set-loading', false)
+        this.showFailureMessage = true
+      })
+    },
     updateRecipes (recipes) {
       this.recipes = recipes
     },
@@ -88,24 +107,13 @@ export default {
       return '/recipes/' + id
     }
   },
+
   created () {
     if (this.authenticated) {
-      this.$store.commit('clearRecipes')
-      this.$emit('set-loading', true)
-
-      var self = this
-      axios.get(app_config.API_URL + 'recipes/my-recipes', {
-        headers: this.auth.getAuthHeader()
-      })
-      .then(function (response) {
-        self.$store.commit('loadRecipes', response.data)
-        self.$emit('set-loading', false)
-      })
-      .catch(function (error) {
-        console.log(error.message)
-      })
+      this.loadRecipes()
     }
   },
+
   mounted () {
     this.showFabs = true
   }

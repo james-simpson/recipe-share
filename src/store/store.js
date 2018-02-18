@@ -40,30 +40,49 @@ const api = axios.create({
 })
 
 const actions = {
+  loadAllRecipes (context, recipe) {
+    return api.get('recipes/all')
+    .then((response) => {
+      context.commit('loadRecipes', response.data)
+    })
+  },
+
+  loadMyRecipes (context, recipe) {
+    return api.get('recipes/my-recipes', {
+      headers: auth.getAuthHeader()
+    })
+    .then((response) => {
+      context.commit('loadRecipes', response.data)
+    })
+  },
+
   addRecipe (context, recipe) {
     return api.post('recipes/add', recipe, {
       headers: auth.getAuthHeader()
     })
-    .then((response) => {
+    .then(() => {
       context.commit('addRecipe', recipe)
     })
   },
+
   updateRecipe (context, recipe) {
     return api.put(`recipes/${recipe.id}`, recipe, {
       headers: auth.getAuthHeader()
     })
-    .then((response) => {
+    .then(() => {
       context.commit('updateRecipe', recipe)
     })
   },
+
   deleteRecipe (context, recipe) {
     return api.delete(`recipes/${recipe.id}/delete`, {
       headers: auth.getAuthHeader()
     })
-    .then(function (response) {
+    .then(() => {
       context.commit('deleteRecipe', recipe)
     })
   },
+
   uploadImage (context, data) {
     let headers = { 'Content-Type': 'multipart/form-data' }
     headers['Content-Type'] = 'multipart/form-data'
