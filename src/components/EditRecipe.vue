@@ -2,7 +2,8 @@
   <v-content>
     <v-container v-if="!authenticated">
       <h2 class="login-prompt-text title text-xs-center">
-        Log in or sign up to add recipes
+        <a @click="auth.login">Log in</a> or
+        <a @click="auth.login">sign up</a> to add recipes
       </h2>
     </v-container>
     <v-container fluid v-if="authenticated">
@@ -50,7 +51,12 @@
             required
           ></v-text-field>
         </v-flex>
-        <v-radio-group v-model="recipe.difficulty" :row="displayDifficultiesAsRow" class="difficulty-levels-radio-group">
+        <v-radio-group
+          v-model="recipe.difficulty"
+          :row="displayDifficultiesAsRow"
+          class="difficulty-levels-radio-group"
+          required
+        >
           <v-radio v-for="(level, i) in difficultyLevels" :label="level" :value="i" ></v-radio>
         </v-radio-group>
         <v-layout row wrap>
@@ -170,7 +176,7 @@ import ImageUpload from './ImageUpload'
 
 export default {
   name: 'EditRecipe',
-  props: ['id', 'authenticated'],
+  props: ['id', 'auth', 'authenticated'],
   components: { ImageUpload },
   data () {
     return {

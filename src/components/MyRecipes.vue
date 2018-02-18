@@ -2,7 +2,13 @@
   <v-content>
     <v-container v-if="!authenticated">
       <h2 class="login-prompt-text title text-xs-center">
-        Log in or sign up to see recipes you've added
+        <a @click="auth.login">Log in</a> or
+        <a @click="auth.login">sign up</a> to see recipes you've added
+      </h2>
+    </v-container>
+    <v-container v-if="authenticated && recipes.length === 0">
+      <h2 class="login-prompt-text title text-xs-center">
+        No recipes to show. <router-link :to="addRecipeRoute">Add a recipe</router-link>
       </h2>
     </v-container>
     <v-container
