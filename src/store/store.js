@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios';
-import AuthService from './../authentication/AuthService';
+import axios from 'axios'
+import AuthService from './../authentication/AuthService'
 
-const auth = new AuthService();
+const auth = new AuthService()
 
 Vue.use(Vuex)
 
@@ -14,18 +14,18 @@ const state = {
 
 // define the possible mutations that can be applied to our state
 const mutations = {
-	clearRecipes (state) {
-		state.recipes = [];
-	},
-	loadRecipes (state, recipes) {
-		state.recipes = recipes;
-	},
-	addRecipe (state, recipe) {
-		state.recipes.push(recipe);
-	},
+  clearRecipes (state) {
+    state.recipes = []
+  },
+  loadRecipes (state, recipes) {
+    state.recipes = recipes
+  },
+  addRecipe (state, recipe) {
+    state.recipes.push(recipe)
+  },
   updateRecipe (state, recipe) {
-    const existingRecipe = state.recipes.find(x => x.id == recipe.id)
-    state.recipes[state.recipes.indexOf(existingRecipe)] = recipe;
+    const existingRecipe = getters.getRecipeById(recipe.id)
+    state.recipes[state.recipes.indexOf(existingRecipe)] = recipe
   },
   deleteRecipe (state, recipe) {
     const index = state.recipes.indexOf(recipe)
@@ -38,7 +38,7 @@ const mutations = {
 const api = axios.create({
   baseURL: app_config.API_URL,
   headers: auth.getAuthHeader()
-});
+})
 
 const actions = {
   addRecipe (context, recipe) {
@@ -70,7 +70,7 @@ const actions = {
 
 const getters = {
   getRecipeById: (state) => (id) => {
-    return state.recipes.find(x => x.id == id);
+    return state.recipes.find(x => x.id == id)
   }
 }
 

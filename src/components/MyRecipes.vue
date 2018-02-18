@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import RecipeCard from './RecipeCard';
+import axios from 'axios'
+import RecipeCard from './RecipeCard'
 
 export default {
   name: 'MyRecipes',
@@ -71,15 +71,15 @@ export default {
   },
   computed: {
     recipes () {
-      return this.$store.state.recipes;
+      return this.$store.state.recipes
     }
   },
   methods: {
-    updateRecipes(recipes) {
-      this.recipes = recipes;
+    updateRecipes (recipes) {
+      this.recipes = recipes
     },
     viewRecipeRoute (id) {
-      return '/recipes/' + id;
+      return '/recipes/' + id
     }
   },
   created () {
@@ -87,7 +87,7 @@ export default {
       this.$store.commit('clearRecipes')
       this.$emit('set-loading', true)
 
-      var self = this;
+      var self = this
       axios.get(app_config.API_URL + 'recipes/my-recipes', {
         headers: this.auth.getAuthHeader()
       })
@@ -96,12 +96,12 @@ export default {
         self.$emit('set-loading', false)
       })
       .catch(function (error) {
-          console.log(error.message);
-      });
+        console.log(error.message)
+      })
     }
   },
   mounted () {
-    this.showFabs = true;
+    this.showFabs = true
   }
 }
 </script>

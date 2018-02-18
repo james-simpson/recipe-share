@@ -25,18 +25,18 @@ export default {
   computed: {
     imageUrlToShow () {
       if (this.uploadedImageUrl !== '') {
-        return this.uploadedImageUrl;
+        return this.uploadedImageUrl
       }
 
-      return this.imageUrl;
+      return this.imageUrl
     }
   },
 
   methods: {
     pickFile () {
-        this.$refs.image.click ()
+      this.$refs.image.click()
     },
-  
+
     onFilePicked (e) {
       const files = e.target.files
       if (files[0] !== undefined) {
@@ -51,7 +51,7 @@ export default {
         fr.addEventListener('load', () => {
           this.uploadedImageUrl = fr.result
           this.imageFile = files[0]
-          this.$emit('image-changed', this.imageFile);
+          this.$emit('image-changed', this.imageFile)
         })
       } else {
         this.imageName = ''

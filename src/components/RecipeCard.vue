@@ -56,9 +56,9 @@
 </template>
 
 <script>
-  import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js';
+  import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
 
-  export default {
+export default {
     name: 'RecipeCard',
     props: [
       'title',
@@ -79,16 +79,16 @@
         }
 
         if (this.vegetarian === true) {
-          return 'green';
+          return 'green'
         }
 
-        return 'cyan darken-1';
+        return 'cyan darken-1'
       },
       difficultyLevel () {
-        return getDifficultyLabel(this.difficulty);
+        return getDifficultyLabel(this.difficulty)
       },
       timeLabel () {
-        return getRecipeDurationLabel(this.time);
+        return getRecipeDurationLabel(this.time)
       }
     }
   }
@@ -97,5 +97,5 @@
 <style >
 .loading-icon {
   text-align: center;
-}      
+}
 </style>

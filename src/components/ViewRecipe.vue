@@ -175,7 +175,7 @@
 
 <script>
 import axios from 'axios'
-import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js';
+import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
 
 export default {
   name: 'ViewRecipe',
@@ -191,16 +191,16 @@ export default {
   },
   computed: {
     recipe () {
-      return this.$store.getters.getRecipeById(this.id);
+      return this.$store.getters.getRecipeById(this.id)
     },
     editRecipeRoute () {
       return '/recipes/' + this.recipe.id + '/edit'
     },
     difficultyLabel () {
-      return getDifficultyLabel(this.recipe.difficulty);
+      return getDifficultyLabel(this.recipe.difficulty)
     },
     timeLabel () {
-      return getRecipeDurationLabel(this.recipe.time);
+      return getRecipeDurationLabel(this.recipe.time)
     },
     tabs () {
       return [
@@ -222,19 +222,19 @@ export default {
     // TODO: actually do this - maybe use router.beforeEach to store recent
     // routes
     navigateBack () {
-      this.$router.push({ name: 'My Recipes' });
+      this.$router.push({ name: 'My Recipes' })
     },
 
     handleDelete () {
-      this.$emit('set-loading', 'true');
-      this.$store.dispatch("deleteRecipe", this.recipe).then((response) => {
-        this.$emit('set-loading', false);
-        this.$router.push({ name: 'My Recipes' });
-        this.$emit('show-toast', 'Recipe deleted');
+      this.$emit('set-loading', 'true')
+      this.$store.dispatch('deleteRecipe', this.recipe).then((response) => {
+        this.$emit('set-loading', false)
+        this.$router.push({ name: 'My Recipes' })
+        this.$emit('show-toast', 'Recipe deleted')
       }, error => {
         console.log(error)
-        this.$emit('set-loading', false);
-        this.$emit('show-toast', 'Failed to delete recipe');
+        this.$emit('set-loading', false)
+        this.$emit('show-toast', 'Failed to delete recipe')
       })
     },
 
@@ -250,22 +250,22 @@ export default {
       return root.requestFullscreen || root.webkitRequestFullscreen || root.mozRequestFullScreen || root.msRequestFullscreen
     },
     addFullscreenListener () {
-      document.addEventListener("fullscreenchange", this.onFullScreenChange, false);
-      document.addEventListener("webkitfullscreenchange", this.onFullScreenChange, false);
-      document.addEventListener("mozfullscreenchange", this.onFullScreenChange, false);
+      document.addEventListener('fullscreenchange', this.onFullScreenChange, false)
+      document.addEventListener('webkitfullscreenchange', this.onFullScreenChange, false)
+      document.addEventListener('mozfullscreenchange', this.onFullScreenChange, false)
     },
     onFullScreenChange () {
-      let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+      let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement
       if (fullscreenElement === null) {
-        this.fullscreen = false;
+        this.fullscreen = false
       } else {
-        this.fullscreen = true;
+        this.fullscreen = true
       }
     }
   },
   mounted () {
-    this.showFabs = true;
-    this.addFullscreenListener();
+    this.showFabs = true
+    this.addFullscreenListener()
   }
 }
 </script>

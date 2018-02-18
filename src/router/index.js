@@ -29,7 +29,7 @@ export default new Router({
     {
       path: '/recipes/add',
       name: 'Add Recipe',
-      component: EditRecipe,
+      component: EditRecipe
     },
     {
       path: '/recipes/:id',

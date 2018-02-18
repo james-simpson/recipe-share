@@ -166,9 +166,7 @@
 </template>
 
 <script>
-import ImageUpload from './ImageUpload';
-import axios from 'axios';
-
+import ImageUpload from './ImageUpload'
 
 export default {
   name: 'EditRecipe',
@@ -192,7 +190,7 @@ export default {
       myRecipesRoute: '/recipes/myrecipes',
       active: null,
       autoGrow: true,
-      showFabs: false,
+      showFabs: false
     }
   },
   computed: {
@@ -211,28 +209,28 @@ export default {
       ]
     },
     recipeImage () {
-      return this.imageFile;
+      return this.imageFile
     },
     isNewRecipe () {
-      return typeof this.id === 'undefined';
+      return typeof this.id === 'undefined'
     },
     displayDifficultiesAsRow () {
       switch (this.$vuetify.breakpoint.name) {
-         case 'xs': return false
-         case 'sm': return false
-         default: return true;
-       }
+        case 'xs': return false
+        case 'sm': return false
+        default: return true
+      }
     }
   },
   methods: {
     saveChanges () {
       console.log(this.$refs.form)
       if (!this.$refs.form.validate()) {
-        return;
+        return
       }
 
-      this.$emit('set-loading', 'true');
-      this.recipe.time = this.hours * 60 + this.minutes;
+      this.$emit('set-loading', 'true')
+      this.recipe.time = this.hours * 60 + this.minutes
 
       if (this.isNewRecipe) {
         this.add()
@@ -255,7 +253,7 @@ export default {
       if (this.imageFile !== '') {
         this.uploadImage()
         .then(response => {
-          console.log("imageUrl: " + response.data.imageUrl)
+          console.log('imageUrl: ' + response.data.imageUrl)
           this.recipe.image = response.data.imageUrl
           this.updateRecipe()
         })
@@ -264,41 +262,42 @@ export default {
       }
     },
     addRecipe () {
-      this.$store.dispatch("addRecipe", this.recipe).then((response) => {
-        this.$emit('set-loading', false);
-        this.$router.push({ name: 'My Recipes' });
-        this.$emit('show-toast', 'Recipe saved');
+      this.$store.dispatch('addRecipe', this.recipe).then((response) => {
+        this.$emit('set-loading', false)
+        this.$router.push({ name: 'My Recipes' })
+        this.$emit('show-toast', 'Recipe saved')
       }, error => {
-        this.$emit('set-loading', false);
-        this.$emit('show-toast', 'Failed to save recipe');
+        this.$emit('set-loading', false)
+        this.$emit('show-toast', 'Failed to save recipe')
+        console.log(error)
       })
     },
     updateRecipe () {
-      this.$store.dispatch("updateRecipe", this.recipe).then((response) => {
-        this.$emit('set-loading', false);
-        this.$router.push({ name: 'My Recipes' });
-        this.$emit('show-toast', 'Recipe saved');
+      this.$store.dispatch('updateRecipe', this.recipe).then((response) => {
+        this.$emit('set-loading', false)
+        this.$router.push({ name: 'My Recipes' })
+        this.$emit('show-toast', 'Recipe saved')
       }, error => {
         console.log(error)
-        this.$emit('set-loading', false);
-        this.$emit('show-toast', 'Failed to save recipe');
+        this.$emit('set-loading', false)
+        this.$emit('show-toast', 'Failed to save recipe')
       })
     },
     uploadImage () {
       let formData = new FormData()
       formData.append('file', this.imageFile)
-      return this.$store.dispatch("uploadImage", { id: this.recipe.id, formData: formData })
+      return this.$store.dispatch('uploadImage', { id: this.recipe.id, formData: formData })
     },
     cancelChanges () {
       if (this.isNewRecipe) {
-        this.$router.push({ name: 'My Recipes' });
+        this.$router.push({ name: 'My Recipes' })
       } else {
-        this.$router.push({ name: 'View Recipe', params: { id: this.id } });
+        this.$router.push({ name: 'View Recipe', params: { id: this.id } })
       }
     },
 
     onImageChanged (imageFile) {
-      this.imageFile = imageFile;
+      this.imageFile = imageFile
     },
 
     // Update the ingredients and method whenever those textareas are changed.
@@ -314,11 +313,11 @@ export default {
   },
   created () {
     if (!this.isNewRecipe) {
-      var recipeFromStore = this.$store.getters.getRecipeById(this.id);
+      var recipeFromStore = this.$store.getters.getRecipeById(this.id)
 
       // clone the recipe from the store so we can edit it without
       // mutating the store's state
-      this.recipe =  Object.assign({}, recipeFromStore);
+      this.recipe = Object.assign({}, recipeFromStore)
     } else {
       // new recipe
       this.recipe = {
@@ -329,16 +328,16 @@ export default {
         vegetarian: false,
         vegan: false,
         sweet: false
-      };
+      }
 
-      return;
+      return
     }
 
-    this.hours = Math.floor(this.recipe.time / 60);
-    this.minutes = this.recipe.time % 60;
+    this.hours = Math.floor(this.recipe.time / 60)
+    this.minutes = this.recipe.time % 60
   },
   mounted () {
-    this.showFabs = true;
+    this.showFabs = true
   }
 }
 </script>

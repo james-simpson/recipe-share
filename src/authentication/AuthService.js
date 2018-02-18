@@ -1,9 +1,8 @@
 import auth0 from 'auth0-js'
 import router from './../router'
-import Vue from 'vue';
+import Vue from 'vue'
 
 export default class AuthService {
-
   authenticated = this.isAuthenticated()
   authNotifier = new Vue();
 
@@ -41,7 +40,7 @@ export default class AuthService {
   }
 
   // The object to be passed as a header for authenticated requests
-  getAuthHeader() {
+  getAuthHeader () {
     return {
       'Authorization': 'Bearer ' + localStorage.getItem('access_token')
     }
