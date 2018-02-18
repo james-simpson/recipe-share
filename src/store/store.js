@@ -36,41 +36,46 @@ const mutations = {
 }
 
 const api = axios.create({
-  baseURL: app_config.API_URL,
-  headers: auth.getAuthHeader()
+  baseURL: app_config.API_URL
 })
 
 const actions = {
   addRecipe (context, recipe) {
-    return api.post('recipes/add', recipe)
+    return api.post('recipes/add', recipe, {
+      headers: auth.getAuthHeader()
+    })
     .then((response) => {
       context.commit('addRecipe', recipe)
     })
   },
   updateRecipe (context, recipe) {
-    return api.put(`recipes/${recipe.id}`, recipe)
+    return api.put(`recipes/${recipe.id}`, recipe, {
+      headers: auth.getAuthHeader()
+    })
     .then((response) => {
       context.commit('updateRecipe', recipe)
     })
   },
   deleteRecipe (context, recipe) {
-    return api.delete(`recipes/${recipe.id}/delete`)
+    return api.delete(`recipes/${recipe.id}/delete`, {
+      headers: auth.getAuthHeader()
+    })
     .then(function (response) {
       context.commit('deleteRecipe', recipe)
     })
   },
   uploadImage (context, data) {
+    let headers = { 'Content-Type': 'multipart/form-data' }
+    headers['Content-Type'] = 'multipart/form-data'
     return api.post(`recipes/${data.id}/image`, data.formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+      headers: { headers }
     })
   }
 }
 
 const getters = {
   getRecipeById: (state) => (id) => {
-    return state.recipes.find(x => x.id == id)
+    return state.recipes.find(x => x.id === parseInt(id))
   }
 }
 
