@@ -56,6 +56,17 @@ const actions = {
     })
   },
 
+  searchAllRecipes (context, searchTerm) {
+    return api.get('recipes/all/search', {
+      params: {
+        'searchTerm': searchTerm
+      }
+    })
+    .then((response) => {
+      context.commit('loadRecipes', response.data)
+    })
+  },
+
   addRecipe (context, recipe) {
     return api.post('recipes/add', recipe, {
       headers: auth.getAuthHeader()

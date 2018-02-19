@@ -27,14 +27,7 @@
     <v-toolbar fixed app clipped-left height="54px" class="blue darken-3" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.mdAndUp ? 'width: 260px; min-width: 250px' : 'display: none'" class="ml-0 pl-3"></v-toolbar-title>
-      <v-text-field
-        light
-        solo
-        prepend-icon="search"
-        placeholder="Search recipes"
-        class="search-field"
-        :class="{ 'search-field-small': $vuetify.breakpoint.smAndDown }"
-      ></v-text-field>
+      <search-bar @set-loading=setLoading></search-bar>
       <v-flex class="text-xs-right" style="margin-right: 0;">
         <v-btn flat dark v-if="!authenticated" @click="login">Log in</v-btn>
         <v-btn flat dark v-if="authenticated" @click="logout">Log out</v-btn>
@@ -79,11 +72,13 @@
 <script>
   import './../static/css/main.css'
   import AuthService from './authentication/AuthService'
+  import SearchBar from './components/SearchBar'
 
   const auth = new AuthService()
   const { login, logout, authenticated, authNotifier } = auth
 
   export default {
+    components: { 'SearchBar': SearchBar },
     data () {
       return {
         appName: 'Recipe Share',
@@ -175,20 +170,5 @@
 .loadingWithNav {
   margin-left: 310px;
   width: calc(100% - 320px);
-}
-
-.search-field {
-  min-width: 190px;
-  max-width: 500px;
-  min-height: unset !important;
-}
-
-.toolbar .search-field .input-group__input {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-.search-field-small {
-  margin-left: 10px;
 }
 </style>

@@ -59,39 +59,39 @@
 import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
 
 export default {
-    name: 'RecipeCard',
-    props: [
-      'title',
-      'author',
-      'image',
-      'time',
-      'difficulty',
-      'difficultyLevels',
-      'vegetarian',
-      'vegan',
-      'sweet',
-      'to'
-    ],
-    computed: {
-      color () {
-        if (this.sweet === true) {
-          return 'pink lighten-2'
-        }
-
-        if (this.vegetarian === true) {
-          return 'green'
-        }
-
-        return 'cyan darken-1'
-      },
-      difficultyLevel () {
-        return getDifficultyLabel(this.difficulty)
-      },
-      timeLabel () {
-        return getRecipeDurationLabel(this.time)
+  name: 'RecipeCard',
+  props: [
+    'title',
+    'author',
+    'image',
+    'time',
+    'difficulty',
+    'difficultyLevels',
+    'vegetarian',
+    'vegan',
+    'sweet',
+    'to'
+  ],
+  computed: {
+    color () {
+      if (this.sweet === true) {
+        return 'pink lighten-2'
       }
+
+      if (this.vegetarian === true) {
+        return 'green'
+      }
+
+      return 'cyan darken-1'
+    },
+    difficultyLevel () {
+      return getDifficultyLabel(this.difficulty)
+    },
+    timeLabel () {
+      return getRecipeDurationLabel(this.time)
     }
   }
+}
 </script>
 
 <style >
