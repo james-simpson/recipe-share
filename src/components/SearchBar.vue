@@ -2,6 +2,7 @@
   <v-text-field
     v-model="searchTerm"
     @keyup.enter="search"
+    id="searchBar"
     light
     solo
     prepend-icon="search"
@@ -19,6 +20,12 @@ export default {
   }),
   methods: {
     search () {
+      // If on a small screen, remove focus from the search bar.
+      // This should hide the keyboard on mobile devices.
+      if (this.$vuetify.breakpoint.smAndDown) {
+        document.getElementById('searchBar').blur()
+      }
+
       this.$store.commit('clearRecipes')
       this.$emit('set-loading', true)
 
