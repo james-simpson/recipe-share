@@ -98,7 +98,21 @@
         </v-layout>
       </v-container>
 
-      <v-fab-transition>
+      <v-fab-transition v-if="!editable">
+        <v-btn
+          @click="requestFullscreen"
+          fab
+          dark
+          fixed
+          bottom
+          right
+          color="pink"
+          class="left-fab mb-4"
+        >
+          <v-icon>fullscreen</v-icon>
+        </v-btn>
+      </v-fab-transition>
+      <v-fab-transition v-if="editable">
         <v-speed-dial
           v-show="showFabs"
           v-model="fab"
@@ -156,7 +170,7 @@
       <v-fab-transition>
         <v-btn
           v-show="showFabs"
-          @click="navigateBack"
+          :to="backRoute"
           fixed
           dark
           fab
@@ -174,12 +188,11 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
 
 export default {
   name: 'ViewRecipe',
-  props: ['id'],
+  props: ['id', 'authenticated'],
   data () {
     return {
       myRecipesRoute: '/recipes/my-recipes',
@@ -192,6 +205,17 @@ export default {
   computed: {
     recipe () {
       return this.$store.getters.getRecipeById(this.id)
+    },
+    editable () {
+      return this.authenticated && this.recipe.userId === localStorage.getItem('user_id')
+    },
+    backRoute () {
+      let backRoute = '/recipes/shared'
+      if (this.$store.state.routeHistory.lastIndexOf('My Recipes') >
+          this.$store.state.routeHistory.lastIndexOf('Shared Recipes')) {
+        backRoute = '/recipes/my-recipes'
+      }
+      return backRoute
     },
     editRecipeRoute () {
       return '/recipes/' + this.recipe.id + '/edit'
@@ -218,25 +242,6 @@ export default {
     }
   },
   methods: {
-    // go back to my recipes or shared recipes, whichever we came from
-    navigateBack () {
-      const recentRoutes = this.$store.state.routeHistory
-      for (let i = recentRoutes.length; i >= 0; i--) {
-        if (recentRoutes[i] === 'My Recipes') {
-          this.$router.push({ name: 'My Recipes' })
-          return
-        }
-        if (recentRoutes[i] === 'Shared Recipes') {
-          this.$router.push({ name: 'Shared Recipes' })
-          return
-        }
-      }
-
-      // if neither 'My Recipes' or 'Shared Recipes' are in the recent routes
-      // return to shared recipes
-      this.$router.push({ name: 'Shared Recipes' })
-    },
-
     handleDelete () {
       this.$emit('set-loading', 'true')
 

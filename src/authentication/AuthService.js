@@ -44,9 +44,11 @@ export default class AuthService {
     let expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     )
+
     localStorage.setItem('access_token', authResult.accessToken)
     localStorage.setItem('id_token', authResult.idToken)
     localStorage.setItem('expires_at', expiresAt)
+    localStorage.setItem('user_id', authResult.idTokenPayload.sub)
     this.authNotifier.$emit('authChange', { authenticated: true })
   }
 
