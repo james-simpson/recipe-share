@@ -39,13 +39,6 @@ export default class AuthService {
     })
   }
 
-  // The object to be passed as a header for authenticated requests
-  getAuthHeader () {
-    return {
-      'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-    }
-  }
-
   setSession (authResult) {
     // Set the time that the Access Token will expire at
     let expiresAt = JSON.stringify(

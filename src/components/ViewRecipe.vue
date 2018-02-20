@@ -219,10 +219,22 @@ export default {
   },
   methods: {
     // go back to my recipes or shared recipes, whichever we came from
-    // TODO: actually do this - maybe use router.beforeEach to store recent
-    // routes
     navigateBack () {
-      this.$router.push({ name: 'My Recipes' })
+      const recentRoutes = this.$store.state.routeHistory
+      for (let i = recentRoutes.length; i >= 0; i--) {
+        if (recentRoutes[i] === 'My Recipes') {
+          this.$router.push({ name: 'My Recipes' })
+          return
+        }
+        if (recentRoutes[i] === 'Shared Recipes') {
+          this.$router.push({ name: 'Shared Recipes' })
+          return
+        }
+      }
+
+      // if neither 'My Recipes' or 'Shared Recipes' are in the recent routes
+      // return to shared recipes
+      this.$router.push({ name: 'Shared Recipes' })
     },
 
     handleDelete () {

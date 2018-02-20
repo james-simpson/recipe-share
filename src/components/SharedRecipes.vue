@@ -54,6 +54,9 @@ export default {
   computed: {
     recipes () {
       return this.$store.state.recipes
+    },
+    shouldRefresh () {
+      return this.$store.state.refreshRecipes
     }
   },
   methods: {
@@ -72,7 +75,7 @@ export default {
     }
   },
   created () {
-    this.loadRecipes()
+    if (this.shouldRefresh) this.loadRecipes()
   }
 }
 </script>

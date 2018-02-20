@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store/store'
 import AuthCallback from '@/components/AuthCallback'
 import SharedRecipes from '@/components/SharedRecipes'
 import MyRecipes from '@/components/MyRecipes'
@@ -8,7 +9,7 @@ import EditRecipe from '@/components/EditRecipe'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -48,3 +49,25 @@ export default new Router({
     { path: '*', redirect: '/recipes/shared' }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // Ensure recipes are reloaded when switching between My Recipes & Shared Recipes
+  if (to.name === 'Shared Recipes') {
+    if (store.state.routeHistory.lastIndexOf('My Recipes') > store.state.routeHistory.lastIndexOf('Shared Recipes')) {
+      store.commit('recipesShouldReload')
+    }
+  } else if (to.name === 'My Recipes') {
+    if (store.state.routeHistory.lastIndexOf('Shared Recipes') > store.state.routeHistory.lastIndexOf('My Recipes')) {
+      store.commit('recipesShouldReload')
+    }
+  }
+
+  // Record each route we navigate to in an array in the central store. This
+  // information is used to make more complex routing decisions e.g. where the
+  // back button on the view recipe should direct to.
+  store.commit('logRouteVisit', to.name)
+
+  next()
+})
+
+export default router
