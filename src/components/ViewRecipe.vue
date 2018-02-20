@@ -101,6 +101,7 @@
       <v-fab-transition v-if="!editable">
         <v-btn
           @click="requestFullscreen"
+          v-show="showFabs"
           fab
           dark
           fixed
