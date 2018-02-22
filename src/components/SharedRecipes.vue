@@ -51,7 +51,7 @@ export default {
     return {
       difficultyLevels: ['Easy', 'Easy/medium', 'Medium', 'Medium/Advanced', 'Advanced'],
       page: 1,
-      pageSize: 4,
+      pageSize: 10,
       addRecipeRoute: '/recipes/add',
       showAddButton: true,
       loading: false,
