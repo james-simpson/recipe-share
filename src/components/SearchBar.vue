@@ -26,20 +26,23 @@ export default {
         document.getElementById('searchBar').blur()
       }
 
-      this.$store.commit('clearRecipes')
-      this.$emit('set-loading', true)
+      this.$store.commit('recipesShouldReload')
 
-      let action = 'searchAllRecipes'
-      if (this.searchTerm === '') {
-        action = 'loadAllRecipes'
+      let route = {
+        path: '/recipes/shared'
+      }
+      if (this.searchTerm !== '') {
+        route['query'] = { search: this.searchTerm }
       }
 
-      this.$store.dispatch(action, this.searchTerm)
-      .then(() => {
-        this.$emit('set-loading', false)
-      }, () => {
-        this.$emit('set-loading', false)
-      })
+      this.$router.push(route)
+
+      // console.log(this.$router.currentRoute)
+      // if (route.path === this.$router.currentRoute.path && route.query === this.$router.currentRoute.query) {
+      //   this.$router.go(route)
+      // } else {
+      //   this.$router.push(route)
+      // }
     }
   }
 }

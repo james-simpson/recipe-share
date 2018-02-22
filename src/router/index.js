@@ -52,20 +52,19 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   // Ensure recipes are reloaded when switching between My Recipes & Shared Recipes
-  if (to.name === 'Shared Recipes') {
-    if (store.state.routeHistory.lastIndexOf('My Recipes') > store.state.routeHistory.lastIndexOf('Shared Recipes')) {
-      store.commit('recipesShouldReload')
-    }
-  } else if (to.name === 'My Recipes') {
-    if (store.state.routeHistory.lastIndexOf('Shared Recipes') > store.state.routeHistory.lastIndexOf('My Recipes')) {
-      store.commit('recipesShouldReload')
-    }
+  let recentPaths = store.state.routeHistory.map(x => x.path)
+  let lastSharedRecipesIndex = recentPaths.lastIndexOf('/recipes/shared')
+  let lastMyRecipesIndex = recentPaths.lastIndexOf('/recipes/my-recipes')
+
+  if ((to.path === '/recipes/shared' && lastMyRecipesIndex > lastSharedRecipesIndex) ||
+      (to.path === '/recipes/my-recipes' && lastMyRecipesIndex < lastSharedRecipesIndex)) {
+    store.commit('recipesShouldReload')
   }
 
   // Record each route we navigate to in an array in the central store. This
   // information is used to make more complex routing decisions e.g. where the
   // back button on the view recipe should direct to.
-  store.commit('logRouteVisit', to.name)
+  store.commit('logRouteVisit', { path: to.path, query: to.query })
 
   next()
 })

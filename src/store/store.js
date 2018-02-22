@@ -10,6 +10,9 @@ Vue.use(Vuex)
 const state = {
   recipes: [],
 
+  // the total number of recipes that match the search criteria
+  resultCount: null,
+
   // Flag to indicate that we should reload recipes from the API. This is set to
   // true when a recipe is added, update or deleted to ensure the latest data is
   // shown, then set back to false after the recipes have been reloaded.
@@ -27,8 +30,9 @@ const mutations = {
   clearRecipes (state) {
     state.recipes = []
   },
-  loadRecipes (state, recipes) {
-    state.recipes = recipes
+  loadRecipes (state, data) {
+    state.recipes = data.recipes
+    state.resultCount = parseInt(data.count)
     state.refreshRecipes = false
   },
   // reload recipes from the API next time we browse to Shared Recipes or
@@ -51,8 +55,13 @@ function getAuthHeader () {
 }
 
 const actions = {
-  loadAllRecipes (context, recipe) {
-    return api.get('recipes/all')
+  loadAllRecipes (context, params) {
+    return api.get('recipes/all', {
+      params: {
+        'startPage': params.startPage,
+        'pageSize': params.pageSize
+      }
+    })
     .then((response) => {
       context.commit('loadRecipes', response.data)
     })
@@ -67,10 +76,12 @@ const actions = {
     })
   },
 
-  searchAllRecipes (context, searchTerm) {
+  searchAllRecipes (context, params) {
     return api.get('recipes/all/search', {
       params: {
-        'searchTerm': searchTerm
+        'searchTerm': params.searchTerm,
+        'startPage': params.startPage,
+        'pageSize': params.pageSize
       }
     })
     .then((response) => {

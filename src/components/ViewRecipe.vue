@@ -211,12 +211,15 @@ export default {
       return this.authenticated && this.recipe.userId === localStorage.getItem('user_id')
     },
     backRoute () {
-      let backRoute = '/recipes/shared'
-      if (this.$store.state.routeHistory.lastIndexOf('My Recipes') >
-          this.$store.state.routeHistory.lastIndexOf('Shared Recipes')) {
-        backRoute = '/recipes/my-recipes'
+      let recentPaths = this.$store.state.routeHistory.map(x => x.path)
+      let lastSharedRecipesIndex = recentPaths.lastIndexOf('/recipes/shared')
+      let lastMyRecipesIndex = recentPaths.lastIndexOf('/recipes/my-recipes')
+      let routeIndex = Math.max(lastSharedRecipesIndex, lastMyRecipesIndex)
+
+      if (routeIndex > -1) {
+        return this.$store.state.routeHistory[routeIndex]
       }
-      return backRoute
+      return '/recipes/shared'
     },
     editRecipeRoute () {
       return '/recipes/' + this.recipe.id + '/edit'

@@ -28,9 +28,16 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <!-- <div class="text-xs-center pt-3 pb-5">
-      <v-pagination :length="6" v-model="page" circle></v-pagination>
-    </div> -->
+    <div class="text-xs-center pt-3 pb-5">
+      <v-pagination
+        v-if="totalPages > 1"
+        v-model="pageNo"
+        :length="totalPages"
+        total-visible=6
+        @input="pageChanged"
+        circle>
+      </v-pagination>
+    </div>
   </v-content>
 </template>
 
@@ -43,8 +50,8 @@ export default {
   data () {
     return {
       difficultyLevels: ['Easy', 'Easy/medium', 'Medium', 'Medium/Advanced', 'Advanced'],
-      hover: true,
       page: 1,
+      pageSize: 4,
       addRecipeRoute: '/recipes/add',
       showAddButton: true,
       loading: false,
@@ -55,20 +62,69 @@ export default {
     recipes () {
       return this.$store.state.recipes
     },
+    pageNo: {
+      get () {
+        // get the page number from the route/URL
+        if (this.$route.query.page) {
+          return parseInt(this.$route.query.page)
+        }
+        return 1
+      },
+      set () {
+        // do nothing - we have already updated the pageNo in the URL (see
+        // pageChanged method)
+      }
+    },
+    totalPages () {
+      return Math.ceil(this.$store.state.resultCount / this.pageSize)
+    },
     shouldRefresh () {
       return this.$store.state.refreshRecipes
+    },
+    searchTerm () {
+      return this.$route.query.search
     }
   },
   methods: {
     loadRecipes () {
       this.$store.commit('clearRecipes')
       this.$emit('set-loading', true)
-      this.$store.dispatch('loadAllRecipes').then(() => {
+
+      let action
+      let params = {
+        startPage: this.pageNo,
+        pageSize: this.pageSize
+      }
+
+      if (this.searchTerm !== undefined && this.searchTerm !== '') {
+        action = 'searchAllRecipes'
+        params['searchTerm'] = this.searchTerm
+      } else {
+        action = 'loadAllRecipes'
+      }
+
+      this.$store.dispatch(action, params)
+      .then(() => {
         this.$emit('set-loading', false)
       }, () => {
         this.$emit('set-loading', false)
         this.showFailureMessage = true
       })
+    },
+    // Handle pagination. Page number starts at 1.
+    pageChanged (pageNo) {
+      let route = { path: this.$route.path, query: { page: pageNo } }
+      if (this.$route.query.search) {
+        route.query = {
+          search: this.$route.query.search,
+          page: pageNo
+        }
+      } else {
+        route.query = { page: pageNo }
+      }
+
+      this.$store.commit('recipesShouldReload')
+      this.$router.push(route)
     },
     viewRecipeRoute (id) {
       return '/recipes/' + id
