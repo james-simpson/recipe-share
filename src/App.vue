@@ -102,11 +102,6 @@
             title: 'Add recipe',
             route: '/recipes/add',
             icon: 'add'
-          },
-          {
-            title: 'Settings',
-            route: '/settings',
-            icon: 'settings'
           }
         ],
         miniVariant: false,
