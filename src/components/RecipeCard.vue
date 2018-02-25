@@ -1,0 +1,101 @@
+<template>
+  <v-card :color="color" class="white--text" :to="to" hover="hover">
+    <v-container fluid grid-list-lg>
+      <v-layout row>
+        <v-flex xs7>
+          <div>
+            <div class="title">{{ title }}</div>
+            <div class="pb-2">{{ author }}</div>
+            <v-chip
+              color="grey darken-3"
+              text-color="white"
+              small
+              disabled
+            >
+              {{ timeLabel }}
+            </v-chip>
+            <v-chip
+              color="grey darken-3"
+              text-color="white"
+              small
+              disabled
+            >
+              {{ difficultyLevel }}
+            </v-chip>
+            <v-chip
+              v-if="vegetarian && !vegan"
+              color="grey darken-3"
+              text-color="white"
+              small
+              disabled
+            >
+              Vegetarian
+            </v-chip>
+            <v-chip
+              v-if="vegan"
+              color="grey darken-3"
+              text-color="white"
+              small
+              disabled
+            >
+              Vegan
+            </v-chip>
+          </div>
+        </v-flex>
+        <v-flex xs5>
+          <v-card-media
+            :src="image"
+            height="120px"
+            contain
+            center
+          ></v-card-media>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-card>
+</template>
+
+<script>
+import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
+
+export default {
+  name: 'RecipeCard',
+  props: [
+    'title',
+    'author',
+    'image',
+    'time',
+    'difficulty',
+    'difficultyLevels',
+    'vegetarian',
+    'vegan',
+    'sweet',
+    'to'
+  ],
+  computed: {
+    color () {
+      if (this.sweet === true) {
+        return 'pink lighten-2'
+      }
+
+      if (this.vegetarian === true) {
+        return 'green'
+      }
+
+      return 'cyan darken-1'
+    },
+    difficultyLevel () {
+      return getDifficultyLabel(this.difficulty)
+    },
+    timeLabel () {
+      return getRecipeDurationLabel(this.time)
+    }
+  }
+}
+</script>
+
+<style >
+.loading-icon {
+  text-align: center;
+}
+</style>
