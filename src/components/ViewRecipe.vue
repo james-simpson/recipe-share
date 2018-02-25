@@ -205,7 +205,7 @@ export default {
   },
   computed: {
     recipe () {
-      return this.$store.getters.getRecipeById(this.id)
+      return this.$store.state.currentRecipe
     },
     editable () {
       return this.authenticated && this.recipe.userId === localStorage.getItem('user_id')
@@ -261,7 +261,7 @@ export default {
 
     // enter fullscreen mode, focusing on the ingredients and method
     requestFullscreen () {
-      this.fullscreen = !this.fullscreen
+      this.fullscreen = true
       this.getRequestFullscreen().call(document.getElementById('recipeDetailsContainer'))
     },
 
@@ -277,11 +277,23 @@ export default {
     },
     onFullScreenChange () {
       let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement
-      if (fullscreenElement === null) {
-        this.fullscreen = false
-      } else {
-        this.fullscreen = true
-      }
+      if (fullscreenElement === null) this.fullscreen = false
+    }
+  },
+  created () {
+    // if the recipe is already in the array of loaded recipes use that,
+    // otherwise load it from the API
+    let recipe = this.$store.getters.getRecipeById(this.id)
+    if (recipe) {
+      this.$store.commit('setCurrentRecipe', recipe)
+    } else {
+      this.$emit('set-loading', true)
+      this.$store.dispatch('loadRecipe', this.id)
+        .then(() => {
+          this.$emit('set-loading', false)
+        }, () => {
+          this.$emit('set-loading', false)
+        })
     }
   },
   mounted () {

@@ -10,6 +10,9 @@ Vue.use(Vuex)
 const state = {
   recipes: [],
 
+  // the recipe being viewed or edited
+  currentRecipe: {},
+
   // the total number of recipes that match the search criteria
   resultCount: null,
 
@@ -34,6 +37,9 @@ const mutations = {
     state.recipes = data.recipes
     state.resultCount = parseInt(data.count)
     state.refreshRecipes = false
+  },
+  setCurrentRecipe (state, recipe) {
+    state.currentRecipe = recipe
   },
   // reload recipes from the API next time we browse to Shared Recipes or
   // My Recipes
@@ -73,6 +79,13 @@ const actions = {
     })
     .then((response) => {
       context.commit('loadRecipes', response.data)
+    })
+  },
+
+  loadRecipe (context, id) {
+    return api.get(`recipes/${id}`)
+    .then((response) => {
+      context.commit('setCurrentRecipe', response.data)
     })
   },
 

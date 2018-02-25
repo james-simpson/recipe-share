@@ -180,7 +180,15 @@ export default {
   components: { ImageUpload },
   data () {
     return {
-      recipe: { title: '', vegetarian: false, vegan: false, sweet: false },
+      recipe: {
+        title: '',
+        ingredients: '',
+        method: '',
+        servings: '',
+        vegetarian: false,
+        vegan: false,
+        sweet: false
+      },
       imageFile: '',
       valid: false,
       nameRules: [
@@ -313,18 +321,8 @@ export default {
     }
   },
   created () {
-    if (this.isNewRecipe) {
-      this.recipe = {
-        title: '',
-        ingredients: '',
-        method: '',
-        servings: '',
-        vegetarian: false,
-        vegan: false,
-        sweet: false
-      }
-    } else {
-      var recipeFromStore = this.$store.getters.getRecipeById(this.id)
+    if (!this.isNewRecipe) {
+      let recipeFromStore = this.$store.getters.getRecipeById(this.id)
       // clone the recipe from the store so we can edit it without
       // mutating the store's state
       this.recipe = Object.assign({}, recipeFromStore)
