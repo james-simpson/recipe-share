@@ -20,7 +20,7 @@
               small
               disabled
             >
-              {{ difficultyLevel }}
+              {{ difficultyLabel }}
             </v-chip>
             <v-chip
               v-if="vegetarian && !vegan"
@@ -60,31 +60,33 @@ import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
 
 export default {
   name: 'RecipeCard',
-  props: [
-    'title',
-    'author',
-    'image',
-    'time',
-    'difficulty',
-    'difficultyLevels',
-    'vegetarian',
-    'vegan',
-    'sweet',
-    'to'
-  ],
+  data: function () {
+    return {
+      test: 'test'
+    }
+  },
+  props: {
+    title: { type: String, required: true },
+    author: { type: String, required: true },
+    image: { type: String, required: false },
+    time: { type: Number, required: true },
+    difficulty: { type: Number, required: true },
+    difficultyLevels: { },
+    vegetarian: { type: Boolean, required: true },
+    vegan: { type: Boolean, required: true },
+    sweet: { type: Boolean, required: true },
+    to: { type: String, required: true }
+  },
+  created () {
+    console.log('author:', this.author)
+  },
   computed: {
     color () {
-      if (this.sweet === true) {
-        return 'pink lighten-2'
-      }
-
-      if (this.vegetarian === true) {
-        return 'green'
-      }
-
+      if (this.sweet) return 'pink lighten-2'
+      if (this.vegetarian) return 'green'
       return 'cyan darken-1'
     },
-    difficultyLevel () {
+    difficultyLabel () {
       return getDifficultyLabel(this.difficulty)
     },
     timeLabel () {

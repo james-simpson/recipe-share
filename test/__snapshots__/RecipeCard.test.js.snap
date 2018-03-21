@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RecipeCard HTML is as expected 1`] = `
+<v-card
+  class="white--text"
+  color="cyan darken-1"
+  hover="hover"
+>
+  <v-container
+    fluid=""
+    grid-list-lg=""
+  >
+    <v-layout
+      row=""
+    >
+      <v-flex
+        xs7=""
+      >
+        <div>
+          <div
+            class="title"
+          >
+            Egg custard tarts
+          </div>
+           
+          <div
+            class="pb-2"
+          >
+            Gregg Wallace
+          </div>
+           
+          <v-chip
+            color="grey darken-3"
+            disabled="disabled"
+            small=""
+            text-color="white"
+          >
+            
+            duration label
+          
+          </v-chip>
+           
+          <v-chip
+            color="grey darken-3"
+            disabled="disabled"
+            small=""
+            text-color="white"
+          >
+            
+            
+          
+          </v-chip>
+           
+          <!---->
+           
+          <!---->
+        </div>
+      </v-flex>
+       
+      <v-flex
+        xs5=""
+      >
+        <v-card-media
+          center=""
+          contain=""
+          height="120px"
+        />
+      </v-flex>
+    </v-layout>
+  </v-container>
+</v-card>
+`;
+
+exports[`RecipeCard HTML is as expected when recipe is vegan 1`] = `
+<v-card
+  class="white--text"
+  color="green"
+  hover="hover"
+>
+  <v-container
+    fluid=""
+    grid-list-lg=""
+  >
+    <v-layout
+      row=""
+    >
+      <v-flex
+        xs7=""
+      >
+        <div>
+          <div
+            class="title"
+          >
+            
+          </div>
+           
+          <div
+            class="pb-2"
+          >
+            
+          </div>
+           
+          <v-chip
+            color="grey darken-3"
+            disabled="disabled"
+            small=""
+            text-color="white"
+          >
+            
+            
+          
+          </v-chip>
+           
+          <v-chip
+            color="grey darken-3"
+            disabled="disabled"
+            small=""
+            text-color="white"
+          >
+            
+            
+          
+          </v-chip>
+           
+          <!---->
+           
+          <v-chip
+            color="grey darken-3"
+            disabled="disabled"
+            small=""
+            text-color="white"
+          >
+            
+            Vegan
+          
+          </v-chip>
+        </div>
+      </v-flex>
+       
+      <v-flex
+        xs5=""
+      >
+        <v-card-media
+          center=""
+          contain=""
+          height="120px"
+        />
+      </v-flex>
+    </v-layout>
+  </v-container>
+</v-card>
+`;
+
+exports[`RecipeCard HTML is as expected when recipe is vegetarian 1`] = `
+<v-card
+  class="white--text"
+  color="cyan darken-1"
+  hover="hover"
+>
+  <v-container
+    fluid=""
+    grid-list-lg=""
+  >
+    <v-layout
+      row=""
+    >
+      <v-flex
+        xs7=""
+      >
+        <div>
+          <div
+            class="title"
+          >
+            Egg custard tarts
+          </div>
+           
+          <div
+            class="pb-2"
+          >
+            Gregg Wallace
+          </div>
+           
+          <v-chip
+            color="grey darken-3"
+            disabled="disabled"
+            small=""
+            text-color="white"
+          >
+            
+            
+          
+          </v-chip>
+           
+          <v-chip
+            color="grey darken-3"
+            disabled="disabled"
+            small=""
+            text-color="white"
+          >
+            
+            
+          
+          </v-chip>
+           
+          <!---->
+           
+          <!---->
+        </div>
+      </v-flex>
+       
+      <v-flex
+        xs5=""
+      >
+        <v-card-media
+          center=""
+          contain=""
+          height="120px"
+        />
+      </v-flex>
+    </v-layout>
+  </v-container>
+</v-card>
+`;
