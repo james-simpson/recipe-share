@@ -77,9 +77,6 @@ export default {
     sweet: { type: Boolean, required: true },
     to: { type: String, required: true }
   },
-  created () {
-    console.log('author:', this.author)
-  },
   computed: {
     color () {
       if (this.sweet) return 'pink lighten-2'

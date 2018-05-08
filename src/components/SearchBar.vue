@@ -28,21 +28,13 @@ export default {
 
       this.$store.commit('recipesShouldReload')
 
-      let route = {
-        path: '/recipes/shared'
-      }
+      let route = { path: '/recipes/shared' }
+
       if (this.searchTerm !== '') {
         route['query'] = { search: this.searchTerm }
       }
 
       this.$router.push(route)
-
-      // console.log(this.$router.currentRoute)
-      // if (route.path === this.$router.currentRoute.path && route.query === this.$router.currentRoute.query) {
-      //   this.$router.go(route)
-      // } else {
-      //   this.$router.push(route)
-      // }
     }
   }
 }

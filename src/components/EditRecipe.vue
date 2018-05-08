@@ -176,12 +176,17 @@ import ImageUpload from './ImageUpload'
 
 export default {
   name: 'EditRecipe',
-  props: ['id', 'auth', 'authenticated'],
+  props: {
+    id: { type: Number },
+    auth: { type: Object, required: true },
+    authenticated: { type: Boolean, required: true }
+  },
   components: { ImageUpload },
   data () {
     return {
       recipe: {
         title: '',
+        author: '',
         ingredients: '',
         method: '',
         servings: '',
