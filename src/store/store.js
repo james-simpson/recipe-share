@@ -139,9 +139,7 @@ const actions = {
 }
 
 const getters = {
-  getRecipeById: (state) => (id) => {
-    return state.recipes.find(x => x.id === parseInt(id))
-  }
+  getRecipeById: (state) => (id) => state.recipes.find(x => x.id === id)
 }
 
 // create the Vuex instance by combining the state and mutations objects

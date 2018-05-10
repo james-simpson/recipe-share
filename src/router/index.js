@@ -36,13 +36,13 @@ const router = new Router({
       path: '/recipes/:id',
       name: 'View Recipe',
       component: ViewRecipe,
-      props: true
+      props: route => ({ id: parseInt(route.params.id) })
     },
     {
       path: '/recipes/:id/edit',
       name: 'Edit Recipe',
       component: EditRecipe,
-      props: true
+      props: route => ({ id: parseInt(route.params.id) })
     },
 
     // Fallback route
