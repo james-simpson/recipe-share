@@ -13,6 +13,7 @@
       <v-layout row wrap>
         <v-flex xs12 md6 v-for="recipe in recipes">
           <recipe-card
+            :id="recipe.id"
             :title="recipe.title"
             :author="recipe.author"
             :image="recipe.image"
@@ -23,6 +24,8 @@
             :vegan="recipe.vegan"
             :sweet="recipe.sweet"
             :to="viewRecipeRoute(recipe.id)"
+            :shoppingListIds="shoppingListIds"
+            :toggleShoppingList="toggleShoppingList"
             class="white--text"
           ></recipe-card>
         </v-flex>
@@ -61,6 +64,9 @@ export default {
   computed: {
     recipes () {
       return this.$store.state.recipes
+    },
+    shoppingListIds () {
+      return this.$store.state.shoppingListIds
     },
     pageNo: {
       get () {
@@ -128,6 +134,10 @@ export default {
     },
     viewRecipeRoute (id) {
       return '/recipes/' + id
+    },
+    toggleShoppingList (e, id) {
+      this.$store.commit('toggleShoppingList', id)
+      e.preventDefault();
     }
   },
   created () {

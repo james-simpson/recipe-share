@@ -1,15 +1,15 @@
 <template>
-  <v-text-field
-    v-model="searchTerm"
-    @keyup.enter="search"
-    id="searchBar"
-    light
-    solo
-    prepend-icon="search"
-    placeholder="Search recipes"
-    class="search-field"
-    :class="{ 'search-field-small': $vuetify.breakpoint.smAndDown }"
-  ></v-text-field>
+    <v-text-field
+      v-model="searchTerm"
+      @keyup.enter="search"
+      id="searchBar"
+      light
+      solo
+      prepend-inner-icon="search"
+      placeholder="Search recipes"
+      class="search-field"
+      :class="{ 'search-field-small': $vuetify.breakpoint.smAndDown }"
+    ></v-text-field>
 </template>
 
 <script>
@@ -55,7 +55,7 @@ export default {
   min-height: unset !important;
 }
 
-.toolbar .search-field .input-group__input {
+.search-field .v-input__slot {
   padding-top: 4px;
   padding-bottom: 4px;
 }

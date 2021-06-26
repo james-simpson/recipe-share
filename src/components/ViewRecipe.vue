@@ -47,20 +47,18 @@
       </v-layout>
 
       <v-container grid-list-md id="recipeDetailsContainer">
-        <v-tabs v-model="active" lazy class="hidden-md-and-up">
-          <v-tabs-bar class="cyan" dark>
-            <v-tabs-item
+        <v-tabs color="cyan" dark v-model="active" lazy class="hidden-md-and-up">
+            <v-tab
               v-for="tab in tabs"
               :key="tab.id"
               :href="'#' + tab.id"
               ripple
             >
               {{ tab.title}}
-            </v-tabs-item>
+            </v-tab>
             <v-tabs-slider color="yellow"></v-tabs-slider>
-          </v-tabs-bar>
           <v-tabs-items>
-            <v-tabs-content
+            <v-tab-item
               v-for="(tab, i) in tabs"
               :key="i"
               :id="'tab-' + i"
@@ -69,7 +67,7 @@
               <v-card flat class="recipe-text">
                 <v-card-text>{{ tab.text }}</v-card-text>
               </v-card>
-            </v-tabs-content>
+            </v-tab-item>
           </v-tabs-items>
         </v-tabs>
         <v-layout row wrap hidden-sm-and-down>

@@ -27,7 +27,7 @@
     <v-toolbar fixed app clipped-left height="54px" class="blue darken-3" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.mdAndUp ? 'width: 260px; min-width: 250px' : 'display: none'" class="ml-0 pl-3"></v-toolbar-title>
-      <search-bar @set-loading=setLoading></search-bar>
+      <search-bar @set-loading="setLoading"></search-bar>
       <v-flex class="text-xs-right" style="margin-right: 0;">
         <v-btn flat dark v-if="!authenticated" @click="login">Log in</v-btn>
         <v-btn flat dark v-if="authenticated" @click="logout">Log out</v-btn>
@@ -73,12 +73,13 @@
   import './../static/css/main.css'
   import AuthService from './authentication/AuthService'
   import SearchBar from './components/SearchBar'
+  import CreateList from './components/CreateList'
 
   const auth = new AuthService()
   const { login, logout, authenticated, authNotifier } = auth
 
   export default {
-    components: { 'SearchBar': SearchBar },
+    components: { 'SearchBar': SearchBar, 'CreateList': CreateList },
     data () {
       return {
         appName: 'Recipe Share',
@@ -102,6 +103,11 @@
             title: 'Add recipe',
             route: '/recipes/add',
             icon: 'add'
+          },
+          {
+            title: 'Shopping list',
+            route: '/shopping-list',
+            icon: 'shopping_cart'
           }
         ],
         miniVariant: false,
@@ -118,7 +124,11 @@
         this.authenticated = authState.authenticated
       })
     },
-
+    computed: {
+      shoppingListIds () {
+        return this.$store.state.shoppingListIds;
+      }
+    },
     methods: {
       login,
       logout,

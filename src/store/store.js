@@ -9,6 +9,9 @@ Vue.use(Vuex)
 // the root, initial state object
 const state = {
   recipes: [],
+  shoppingListIds: window.localStorage.getItem('ids') ? JSON.parse(window.localStorage.getItem('ids')) : [],
+  shoppingList: [],
+  shoppingListTitles: [],
 
   // the recipe being viewed or edited
   currentRecipe: {},
@@ -48,6 +51,24 @@ const mutations = {
   },
   logRouteVisit (state, routeName) {
     state.routeHistory.push(routeName)
+  },
+  toggleShoppingList (state, id) {
+    state.shoppingListIds.includes(id)
+      ? state.shoppingListIds = state.shoppingListIds.filter(e => e !== id)
+      : state.shoppingListIds.push(id);
+    window.localStorage.setItem('ids', JSON.stringify(state.shoppingListIds))
+  },
+  getShoppingList () {
+    if (state.shoppingListIds.length > 0) {
+      return api.get('shopping-list/' + state.shoppingListIds.join() )
+          .then((response) => {
+              state.shoppingList = response.data.ingredients;
+              state.shoppingListTitles = response.data.titles;
+        })
+    } else {
+      state.shoppingList = [];
+      state.shoppingListTitles = [];
+    }
   }
 }
 
