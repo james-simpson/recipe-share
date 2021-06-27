@@ -7,7 +7,7 @@
       :color="buttonColour"
       @click="copyListToClipboard"
     >
-      <v-icon v-if="!this.active" small left>content_copy</v-icon>
+      <v-icon v-if="!this.copied" small left>content_copy</v-icon>
       <v-icon v-else small left>done</v-icon>
       {{ buttonText }}
     </v-btn>
@@ -20,14 +20,14 @@ export default {
   name: "CopyList",
   props: ["ingredients"],
   data: () => ({
-    active: false,
+    copied: false,
   }),
   computed: {
     buttonText() {
-      return this.active ? "Copied to clipboard" : "Copy to clipboard"
+      return this.copied ? "Copied to clipboard" : "Copy to clipboard"
     },
     buttonColour() {
-      return this.active ? "green" : "primary"
+      return this.copied ? "green" : "primary"
     },
     shoppingListCopyText() {
       return this.ingredients.join("\r\n")
@@ -35,9 +35,9 @@ export default {
   },
   methods: {
     copyListToClipboard() {
-      let codeToBeCopied = this.shoppingListCopyText;
+      let textToBeCopied = this.shoppingListCopyText;
       let emptyArea = document.createElement("textarea");
-      emptyArea.innerHTML = codeToBeCopied;
+      emptyArea.innerHTML = textToBeCopied;
       let parentElement = document.getElementById("shopping-list-copy-text");
       parentElement.appendChild(emptyArea);
 
@@ -45,8 +45,8 @@ export default {
       document.execCommand("copy");
 
       parentElement.removeChild(emptyArea);
-      this.active = true;
-      setTimeout(() => (this.active = false), 3000);
+      this.copied = true;
+      setTimeout(() => (this.copied = false), 3000);
     },
   },
 };
