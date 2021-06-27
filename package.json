@@ -9,7 +9,7 @@
     "start": "node server.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "npm install --production=false --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "auth0-js": "^9.2.2",
