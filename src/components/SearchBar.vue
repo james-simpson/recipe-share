@@ -55,12 +55,17 @@ export default {
   min-height: unset !important;
 }
 
-.search-field .v-input__slot {
+.search-field .v-input__control {
   padding-top: 4px;
   padding-bottom: 4px;
+  min-height: 38px !important
+}
+
+.search-field .v-input__slot {
+  margin: 0;
 }
 
 .search-field-small {
-  margin-left: 10px;
+  margin-left: 10px !important;
 }
 </style>

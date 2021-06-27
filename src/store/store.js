@@ -9,7 +9,7 @@ Vue.use(Vuex)
 // the root, initial state object
 const state = {
   recipes: [],
-  shoppingListIds: window.localStorage.getItem('ids') ? JSON.parse(window.localStorage.getItem('ids')) : [],
+  shoppingListIds: [],
   shoppingList: [],
   shoppingListTitles: [],
 
@@ -58,18 +58,16 @@ const mutations = {
       : state.shoppingListIds.push(id);
     window.localStorage.setItem('ids', JSON.stringify(state.shoppingListIds))
   },
-  getShoppingList () {
-    if (state.shoppingListIds.length > 0) {
-      return api.get('shopping-list/' + state.shoppingListIds.join() )
-          .then((response) => {
-              state.shoppingList = response.data.ingredients;
-              state.shoppingListTitles = response.data.titles;
-        })
-    } else {
-      state.shoppingList = [];
-      state.shoppingListTitles = [];
-    }
+  setShoppingListRecipes (state, ids) {
+    state.shoppingListIds = ids;
+  },
+  setShoppingListIngredients (state, ingredients) {
+    state.shoppingList = ingredients;
+  },
+  setShoppingListRecipeTitles (state, recipeTitles) {
+    state.shoppingListTitles = recipeTitles;
   }
+
 }
 
 const api = axios.create({
@@ -156,6 +154,24 @@ const actions = {
     return api.post(`upload-image`, data.formData, {
       headers: headers
     })
+  },
+  getShoppingListIngredients (context) {
+    if (context.state.shoppingListIds.length > 0) {
+      api.get('shopping-list/' + context.state.shoppingListIds.join() )
+        .then((response) => {
+          context.commit('setShoppingListIngredients', response.data.ingredients);
+          context.commit('setShoppingListRecipeTitles', response.data.titles);
+      })
+    }
+    else {
+      context.commit('setShoppingListIngredients', []);
+      context.commit('setShoppingListRecipeTitles', []);
+    }
+  },
+  getShoppingListRecipesFromStorage (context) {
+    let storedIds = window.localStorage.getItem('ids');
+    let ids = storedIds ? JSON.parse(storedIds) : [];
+    context.commit('setShoppingListRecipes', ids);
   }
 }
 

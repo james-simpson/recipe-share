@@ -73,13 +73,12 @@
   import './../static/css/main.css'
   import AuthService from './authentication/AuthService'
   import SearchBar from './components/SearchBar'
-  import CreateList from './components/CreateList'
 
   const auth = new AuthService()
   const { login, logout, authenticated, authNotifier } = auth
 
   export default {
-    components: { 'SearchBar': SearchBar, 'CreateList': CreateList },
+    components: { 'SearchBar': SearchBar },
     data () {
       return {
         appName: 'Recipe Share',
@@ -123,6 +122,7 @@
       authNotifier.$on('authChange', authState => {
         this.authenticated = authState.authenticated
       })
+      this.$store.dispatch('getShoppingListRecipesFromStorage');
     },
     computed: {
       shoppingListIds () {

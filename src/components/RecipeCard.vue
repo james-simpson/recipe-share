@@ -50,20 +50,21 @@
             center
           ></v-card-media>
         </v-flex>
-        <v-flex xs5>
-          <v-btn
-            @click="toggleShoppingList($event, id)"
-            class="mx-2"
-            fab
-            dark
-            :color="listButtonColor"
-          >
-            <v-icon v-if="inShoppingList" dark>done</v-icon>
-            <v-icon v-if="!inShoppingList">add_shopping_cart</v-icon>
-          </v-btn>
-        </v-flex>
+        
       </v-layout>
     </v-container>
+    <v-btn
+          @click="toggleShoppingList($event, id)"
+          fab
+          top
+          right
+          dark
+          :color="listButtonColor"
+          class="shopping-list-button"
+        >
+          <v-icon v-if="inShoppingList" dark>done</v-icon>
+          <v-icon v-if="!inShoppingList">add_shopping_cart</v-icon>
+        </v-btn>
   </v-card>
 </template>
 
@@ -122,5 +123,10 @@ export default {
 <style >
 .loading-icon {
   text-align: center;
+}
+.shopping-list-button {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
 }
 </style>

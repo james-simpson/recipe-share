@@ -44,7 +44,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('getShoppingList');
+    this.$store.dispatch('getShoppingListIngredients');
   }
 }
 </script>
