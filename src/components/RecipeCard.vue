@@ -43,34 +43,32 @@
           </div>
         </v-flex>
         <v-flex xs5>
-          <v-card-media
+          <v-img
             :src="image"
             height="120px"
             contain
             center
-          ></v-card-media>
+          ></v-img>
         </v-flex>
-        
       </v-layout>
     </v-container>
     <v-btn
-          @click="toggleShoppingList($event, id)"
-          fab
-          top
-          right
-          dark
-          :color="listButtonColor"
-          class="shopping-list-button"
-        >
-          <v-icon v-if="inShoppingList" dark>done</v-icon>
-          <v-icon v-if="!inShoppingList">add_shopping_cart</v-icon>
-        </v-btn>
+      @click="toggleShoppingListRecipeIds($event, id)"
+      fab
+      top
+      right
+      dark
+      :color="listButtonColor"
+      class="shopping-list-button"
+    >
+      <v-icon v-if="inShoppingList" dark>done</v-icon>
+      <v-icon v-else>add_shopping_cart</v-icon>
+    </v-btn>
   </v-card>
 </template>
 
 <script>
 import { getRecipeDurationLabel, getDifficultyLabel } from '../utils.js'
-
 
 export default {
   name: 'RecipeCard',
@@ -87,7 +85,7 @@ export default {
     'sweet',
     'to',
     'shoppingListIds',
-    'toggleShoppingList'
+    'toggleShoppingListRecipeIds'
   ],
   computed: {
     color () {
@@ -108,15 +106,12 @@ export default {
       return getRecipeDurationLabel(this.time)
     },
     inShoppingList () {
-      return this.shoppingListIds.includes(this.id);
+      return this.shoppingListIds.includes(this.id)
     },
-    listButtonColor() {
-      return this.inShoppingList ? "green" : "primary";
+    listButtonColor () {
+      return this.inShoppingList ? 'green' : 'primary'
     }
-  },
-  methods: {
-    
-  },
+  }
 }
 </script>
 

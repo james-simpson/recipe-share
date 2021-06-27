@@ -25,7 +25,7 @@
             :sweet="recipe.sweet"
             :to="viewRecipeRoute(recipe.id)"
             :shoppingListIds="shoppingListIds"
-            :toggleShoppingList="toggleShoppingList"
+            :toggleShoppingListRecipeIds="toggleShoppingListRecipeIds"
             class="white--text"
           ></recipe-card>
         </v-flex>
@@ -135,9 +135,9 @@ export default {
     viewRecipeRoute (id) {
       return '/recipes/' + id
     },
-    toggleShoppingList (e, id) {
-      this.$store.commit('toggleShoppingList', id)
-      e.preventDefault();
+    toggleShoppingListRecipeIds (e, id) {
+      this.$store.dispatch('toggleShoppingListRecipeIds', id)
+      e.preventDefault()
     }
   },
   created () {

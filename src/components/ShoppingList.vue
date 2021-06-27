@@ -22,33 +22,24 @@
 </template>
 
 <script>
-import {  } from '../utils.js'
+import {} from '../utils.js'
 
 export default {
   name: 'ShoppingList',
   props: ['ids'],
-  data () {
-    return {
-    }
-  },
   computed: {
-    shoppingListTitles() {
-        return this.$store.state.shoppingListTitles;
+    shoppingListTitles () {
+      return this.$store.state.shoppingListTitles
     },
-    shoppingList() {
-        return this.$store.state.shoppingList;
+    shoppingList () {
+      return this.$store.state.shoppingList
     },
-    showShoppingList()
-    {
-      return this.$store.state.shoppingList.length > 0;
+    showShoppingList () {
+      return this.$store.state.shoppingList.length > 0
     }
   },
-  mounted() {
-    this.$store.dispatch('getShoppingListIngredients');
+  mounted () {
+    this.$store.dispatch('getShoppingListIngredients')
   }
 }
 </script>
-
-<style scoped>
-
-</style>

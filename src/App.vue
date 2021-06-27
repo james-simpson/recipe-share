@@ -27,7 +27,7 @@
     <v-toolbar fixed app clipped-left height="54px" class="blue darken-3" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="appName" :style="$vuetify.breakpoint.mdAndUp ? 'width: 260px; min-width: 250px' : 'display: none'" class="ml-0 pl-3"></v-toolbar-title>
-      <search-bar @set-loading="setLoading"></search-bar>
+      <search-bar @set-loading=setLoading></search-bar>
       <v-flex class="text-xs-right" style="margin-right: 0;">
         <v-btn flat dark v-if="!authenticated" @click="login">Log in</v-btn>
         <v-btn flat dark v-if="authenticated" @click="logout">Log out</v-btn>
@@ -122,11 +122,11 @@
       authNotifier.$on('authChange', authState => {
         this.authenticated = authState.authenticated
       })
-      this.$store.dispatch('getShoppingListRecipesFromStorage');
+      this.$store.dispatch('getShoppingListRecipesFromStorage')
     },
     computed: {
       shoppingListIds () {
-        return this.$store.state.shoppingListIds;
+        return this.$store.state.shoppingListIds
       }
     },
     methods: {

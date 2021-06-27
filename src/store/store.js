@@ -52,20 +52,19 @@ const mutations = {
   logRouteVisit (state, routeName) {
     state.routeHistory.push(routeName)
   },
-  toggleShoppingList (state, id) {
+  toggleShoppingListRecipeIds (state, id) {
     state.shoppingListIds.includes(id)
       ? state.shoppingListIds = state.shoppingListIds.filter(e => e !== id)
-      : state.shoppingListIds.push(id);
-    window.localStorage.setItem('ids', JSON.stringify(state.shoppingListIds))
+      : state.shoppingListIds.push(id)
   },
   setShoppingListRecipes (state, ids) {
-    state.shoppingListIds = ids;
+    state.shoppingListIds = ids
   },
   setShoppingListIngredients (state, ingredients) {
-    state.shoppingList = ingredients;
+    state.shoppingList = ingredients
   },
   setShoppingListRecipeTitles (state, recipeTitles) {
-    state.shoppingListTitles = recipeTitles;
+    state.shoppingListTitles = recipeTitles
   }
 
 }
@@ -155,23 +154,27 @@ const actions = {
       headers: headers
     })
   },
+  toggleShoppingListRecipeIds (context, id) {
+    context.commit('toggleShoppingListRecipeIds', id)
+    window.localStorage.setItem('ids', JSON.stringify(context.state.shoppingListIds))
+  },
   getShoppingListIngredients (context) {
     if (context.state.shoppingListIds.length > 0) {
       api.get('shopping-list/' + context.state.shoppingListIds.join() )
         .then((response) => {
-          context.commit('setShoppingListIngredients', response.data.ingredients);
-          context.commit('setShoppingListRecipeTitles', response.data.titles);
+          context.commit('setShoppingListIngredients', response.data.ingredients)
+          context.commit('setShoppingListRecipeTitles', response.data.titles)
       })
     }
     else {
-      context.commit('setShoppingListIngredients', []);
-      context.commit('setShoppingListRecipeTitles', []);
+      context.commit('setShoppingListIngredients', [])
+      context.commit('setShoppingListRecipeTitles', [])
     }
   },
   getShoppingListRecipesFromStorage (context) {
-    let storedIds = window.localStorage.getItem('ids');
-    let ids = storedIds ? JSON.parse(storedIds) : [];
-    context.commit('setShoppingListRecipes', ids);
+    let storedIds = window.localStorage.getItem('ids')
+    let ids = storedIds ? JSON.parse(storedIds) : []
+    context.commit('setShoppingListRecipes', ids)
   }
 }
 
