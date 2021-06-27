@@ -2,17 +2,15 @@
   <v-content>
     <v-container fluid>
       <div v-if="showShoppingList">
-          <h2>Showing ingredients for the following recipes:</h2>
-          <br>
-          <p v-for="recipe in shoppingListTitles">
+          <h2>Selected recipes</h2>
+          <li v-for="recipe in shoppingListTitles">
               {{ recipe }}
-          </p>
-          <br>
-          <h2>Ingredients:</h2>
-          <br>
-          <p v-for="item in shoppingList">
+          </li>
+          <copy-list :ingredients="shoppingList" />
+          <h2>Ingredients</h2>
+          <li v-for="item in shoppingList">
               {{ item }}
-          </p>
+          </li>
       </div>
       <div v-else>
         You haven't selected any recipes for your shopping list.
@@ -23,9 +21,11 @@
 
 <script>
 import {} from '../utils.js'
+import CopyList from './CopyList'
 
 export default {
   name: 'ShoppingList',
+  components: { CopyList },
   props: ['ids'],
   computed: {
     shoppingListTitles () {
@@ -43,3 +43,8 @@ export default {
   }
 }
 </script>
+<style>
+ h2 {
+   margin-bottom: 20px;
+ }
+</style>
