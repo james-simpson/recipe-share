@@ -22,7 +22,7 @@
     "vue-router": "^3.0.1",
     "vue-scroll-behavior": "^0.2.0",
     "vue-textarea-autosize": "^1.0.3",
-    "vuetify": "^0.17.4",
+    "vuetify": "^1.5.24",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

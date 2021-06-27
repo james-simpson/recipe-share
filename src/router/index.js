@@ -6,6 +6,7 @@ import SharedRecipes from '@/components/SharedRecipes'
 import MyRecipes from '@/components/MyRecipes'
 import ViewRecipe from '@/components/ViewRecipe'
 import EditRecipe from '@/components/EditRecipe'
+import ShoppingList from '@/components/ShoppingList'
 
 Vue.use(Router)
 
@@ -43,6 +44,11 @@ const router = new Router({
       name: 'Edit Recipe',
       component: EditRecipe,
       props: true
+    },
+    {
+      path: '/shopping-list',
+      name: 'Shopping List',
+      component: ShoppingList
     },
 
     // Fallback route

@@ -102,6 +102,11 @@
             title: 'Add recipe',
             route: '/recipes/add',
             icon: 'add'
+          },
+          {
+            title: 'Shopping list',
+            route: '/shopping-list',
+            icon: 'shopping_cart'
           }
         ],
         miniVariant: false,
@@ -117,8 +122,13 @@
       authNotifier.$on('authChange', authState => {
         this.authenticated = authState.authenticated
       })
+      this.$store.dispatch('getShoppingListRecipesFromStorage')
     },
-
+    computed: {
+      shoppingListIds () {
+        return this.$store.state.shoppingListIds
+      }
+    },
     methods: {
       login,
       logout,
