@@ -25,6 +25,7 @@
       <v-layout row wrap>
         <v-flex xs12 md6 v-for="recipe in recipes">
           <recipe-card
+            :id="recipe.id"
             :title="recipe.title"
             :author="recipe.author"
             :image="recipe.image"
@@ -35,6 +36,8 @@
             :vegan="recipe.vegan"
             :sweet="recipe.sweet"
             :to="viewRecipeRoute(recipe.id)"
+            :shoppingListIds="shoppingListIds"
+            :toggleShoppingListRecipeIds="toggleShoppingListRecipeIds"
             class="white--text"
           ></recipe-card>
         </v-flex>
@@ -88,7 +91,10 @@ export default {
     },
     shouldRefresh () {
       return this.$store.state.refreshRecipes
-    }
+    },
+    shoppingListIds () {
+      return this.$store.state.shoppingListIds
+    },
   },
 
   methods: {
@@ -108,6 +114,10 @@ export default {
     },
     viewRecipeRoute (id) {
       return '/recipes/' + id
+    },
+    toggleShoppingListRecipeIds (e, id) {
+      this.$store.dispatch('toggleShoppingListRecipeIds', id)
+      e.preventDefault()
     }
   },
 
